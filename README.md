@@ -1,2 +1,4 @@
 # CiteEXchange.jl
-Module to work with data in Cite EXchange format.
+
+
+A Julia package to work with data in Cite EXchange format.
