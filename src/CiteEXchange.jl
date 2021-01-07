@@ -3,7 +3,7 @@ module CiteEXchange
 
 using  Documenter, DocStringExtensions
 
-blocks(s::String)
+function blocks(s::String)
     "TO BE IMPLEMENTED"
 end
 
