@@ -3,8 +3,7 @@ module CiteEXchange
 
 using  Documenter, DocStringExtensions
 
-function blocks(s::String)
-    "TO BE IMPLEMENTED"
-end
+include("blocks.jl")
+
 
 end # module
