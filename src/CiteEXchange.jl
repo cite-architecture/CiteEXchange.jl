@@ -5,5 +5,6 @@ using  Documenter, DocStringExtensions
 
 include("blocks.jl")
 
+export blocks
 
 end # module
