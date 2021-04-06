@@ -3,12 +3,22 @@ struct Block
     lines
 end
 
+
+"""Determine block type from first line of block.
+
+"""
 function blocktype(s::AbstractString)
     validtypes = [
-        "ctscatalog",
+        "cexversion",
+        "citelibrary",
         "ctsdata",
-        "citecatalog",
-        "citedata"
+        "ctscatalog",
+        "citecollections",
+        "citeproperties",
+        "citedata",
+        "imagedata",
+        "relations",
+        "datamodels"
     ]
     if s in validtypes
         s
