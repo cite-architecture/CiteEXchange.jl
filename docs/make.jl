@@ -1,6 +1,30 @@
+# Run this from repository root, e.g. with
+# 
+#    julia --project=docs/ docs/make.jl
+#
 using Pkg
-pkg"activate .."
-push!(LOAD_PATH,"../src/")
-using Documenter, DocStringExtensions, CiteEXchange
+Pkg.activate(".")
+Pkg.instantiate()
 
-makedocs(sitename = "CiteEXchange Documentation")
+
+using Documenter, DocStringExtensions
+using CiteEXchange
+
+
+
+makedocs(
+    sitename = "CiteEXchange",
+    pages = [
+        "Home" => "index.md",
+
+        "API documentation" => "apis.md"
+    ]
+    
+)
+
+#=
+deploydocs(
+    repo = "https://github.com/cite-architecture/CiteEXchange.jl",
+)
+
+=#

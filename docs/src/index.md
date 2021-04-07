@@ -1,12 +1,3 @@
-# CiteEXchange.jl Documentation
-```@meta
-CurrentModule = CiteEXchange
-```
-```@contents
-```
-## Functions
-```@docs
-```
-## Index
-```@index
-```
+# CiteEXchange
+
+*Parse strings and files in CEX format.*
