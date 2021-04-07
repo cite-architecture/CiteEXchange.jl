@@ -7,7 +7,7 @@ CurrentModule = CiteEXchange
 ## Exported functions and types
 ```@docs
 Block
-
+cexversion
 blocks
 blocktypes
 blocksfortype

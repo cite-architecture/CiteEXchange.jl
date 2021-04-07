@@ -7,5 +7,6 @@ include("blocks.jl")
 include("file.jl")
 
 export blocks, blocktypes, blocksfortype, datafortype
+export cexversion 
 
 end # module
