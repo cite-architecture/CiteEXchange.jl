@@ -22,9 +22,8 @@ makedocs(
     
 )
 
-#=
+
 deploydocs(
     repo = "https://github.com/cite-architecture/CiteEXchange.jl",
 )
 
-=#
