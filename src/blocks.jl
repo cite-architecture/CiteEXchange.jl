@@ -47,7 +47,9 @@ function blocktype(s::AbstractString)
         "citedata",
         "imagedata",
         "relations",
-        "datamodels"
+        "datamodels",
+        "citerelationset",
+        "relationsetcatalog"
     ]
     if s in validtypes
         s
