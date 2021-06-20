@@ -46,7 +46,7 @@ function blocktype(s::AbstractString)
         "citeproperties",
         "citedata",
         "imagedata",
-        "relations",
+        "relations", # deprecated
         "datamodels",
         "citerelationset",
         "relationsetcatalog"
