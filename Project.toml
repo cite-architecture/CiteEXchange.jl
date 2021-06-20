@@ -1,7 +1,7 @@
 name = "CiteEXchange"
 uuid = "e2e9ead3-1b6c-4e96-b95f-43e6ab899178"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
