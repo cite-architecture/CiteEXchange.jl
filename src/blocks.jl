@@ -99,3 +99,17 @@ function cexversion(group)
         versiondata[1]
     end
 end
+
+"""Extract data from all relation sets where relation belongs to a specified collection.
+
+
+$(SIGNATURES)
+"""
+function relations(blocklist, coll::Cite2Urn)
+    relationblocks = filter(b -> b.label == "citerelationset", blocklist)
+    relationlines = []
+    for blk in relationblocks
+        push!(relationlines, blk.lines[3:end])
+    end
+    relationlines |> Iterators.flatten |> collect
+end

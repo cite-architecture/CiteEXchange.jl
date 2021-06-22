@@ -12,6 +12,7 @@ blocks
 blocktypes
 blocksfortype
 datafortype
+relations
 ```
 
 ## Internals
