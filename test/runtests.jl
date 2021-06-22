@@ -1,4 +1,5 @@
 using CiteEXchange
+using CitableObject
 using Test
 
 
