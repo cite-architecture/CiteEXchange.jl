@@ -3,6 +3,7 @@ module CiteEXchange
 
 using  Documenter, DocStringExtensions
 using CitableObject
+using HTTP
 
 include("blocks.jl")
 include("file.jl")
