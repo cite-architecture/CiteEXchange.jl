@@ -27,7 +27,7 @@ makedocs(
     
 )
 
-deploydocs(
-    repo = "https://github.com/cite-architecture/CiteEXchange.jl",
-)
 
+deploydocs(
+    repo = "github.com/cite-architecture/CiteEXchange.jl.git",
+)
