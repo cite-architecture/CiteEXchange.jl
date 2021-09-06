@@ -92,3 +92,10 @@ urn:cite2:hmt:va_signs.v1:cs0#diple on Iliad 1.2#urn:cts:greekLit:tlg0012.tlg001
     @test cexversion(blkgroup) == "3.1"
 end
 
+
+@testset "Test CTS data block without header" begin
+    f = "assets/textblocks.cex"
+    blks = CiteEXchange.fromfile(f)
+    datalines = datafortype("ctsdata", blks)
+    @test length(datalines) == 4
+end
