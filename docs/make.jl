@@ -20,7 +20,7 @@ using CiteEXchange
 makedocs(
     sitename = "CiteEXchange",
     pages = [
-        "Home" => "index.md",
+        "Overview" => "index.md",
 
         "API documentation" => "apis.md"
     ]
