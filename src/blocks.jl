@@ -4,7 +4,6 @@ struct Block
     lines
 end
 
-
 """Find blocks of a given type in a blockgroup.
 
 $(SIGNATURES)
@@ -22,7 +21,6 @@ $(SIGNATURES)
 function blocksfortype(blocktype, blockgroup)
     filter(blk -> blk.label == blocktype, blockgroup)
 end
-
 
 """Find list of unique block types in a group.
 
@@ -82,7 +80,6 @@ function blocks(s::AbstractString)
     end
     blockgroup
 end
-
 
 """Find CEX version for a block group.
 
