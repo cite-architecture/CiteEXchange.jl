@@ -1,3 +1,6 @@
+![build](https://github.com/cite-architecture/CiteEXchange.jl/actions/workflows/Documentation.yml/badge.svg)
+
+
 # CiteEXchange.jl
 
 
