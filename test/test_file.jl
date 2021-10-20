@@ -3,6 +3,7 @@
     f = "assets/collectionblocks.cex"
     blockgroup = CiteEXchange.fromfile(f)
     @test length(blockgroup) == 3
+    @test isa(blockgroup, Vector{CiteEXchange.Block})
     
 end
 
@@ -12,10 +13,12 @@ end
     @test length(blockgroup) == 3
     
     rawrelset = datafortype("citerelationset", blockgroup)
+    @test eltype(rawrelset) <: AbstractString
     @test length(rawrelset) == 10
 
     urn = Cite2Urn("urn:cite2:hmt:dse.v1:")
     relationdata = relations(blockgroup, urn)
+    @test eltype(relationdata) <: AbstractString
     @test length(relationdata) == 6
 
 end
