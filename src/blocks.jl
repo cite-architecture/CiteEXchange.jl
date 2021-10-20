@@ -62,7 +62,7 @@ end
 $(SIGNATURES)
 """
 function blocks(s::AbstractString)
-    blockgroup = []
+    blockgroup = Block[]
     blocks = split(s, "#!")
     for block in blocks
         lines = split(block, "\n")
