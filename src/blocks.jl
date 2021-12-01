@@ -114,3 +114,13 @@ function relations(blocklist, coll::Cite2Urn)
     end
     relationlines |> Iterators.flatten |> collect
 end
+
+
+"""Delegate `fromblocks` to specific functions based on 
+type's citable trait value.
+
+$(SIGNATURES)
+"""
+function fromblocks(blocklist::Vector{Block}, T; delimiter = "|")
+    fromcex(CitableTrait(T), s; delimiter = delimiter)
+end
