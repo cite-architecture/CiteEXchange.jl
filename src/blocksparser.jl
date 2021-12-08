@@ -8,13 +8,20 @@ function collections(blocklist::Vector{Block})
     nothing
 end
 
-
-
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all datamodels in a list of `Block`s.
 $(SIGNATURES)
 """
 function datamodels(blocklist::Vector{Block})
+    nothing
+end
+
+
+"""Gather a (possibly empty) list of `Cite2Urn`s
+identifying all collections in a list of `Block`s.
+$(SIGNATURES)
+"""
+function collectionsformodel(modelurn::Cite2Urn, blocklist::Vector{Block})
     nothing
 end
 
@@ -40,5 +47,20 @@ end
 $(SIGNATURES)
 """
 function dataforrelations(coll::Cite2Urn, blocklist::Vector{Block})
+    nothing
+end
+
+
+"""
+$(SIGNATURES)
+"""
+function rawcollections( blocklist::Vector{Block})
+    nothing
+end
+
+"""
+$(SIGNATURES)
+"""
+function rawrelations(blocklist::Vector{Block})
     nothing
 end
