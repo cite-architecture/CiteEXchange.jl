@@ -9,10 +9,13 @@ import CitableLibrary: CitableLibraryTrait
 
 include("blocks.jl")
 include("file.jl")
+include("blocksparser.jl")
 
 export blocks, blocktypes, blocksfortype, datafortype
 export relations
 export cexversion 
-export fromblocks
+
+export collections, datamodels
+
 
 end # module

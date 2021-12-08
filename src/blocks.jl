@@ -8,7 +8,9 @@ end
 
 $(SIGNATURES)
 """
-function datafortype(blocktype, blockgroup)
+function datafortype(
+    blocktype::AbstractString, 
+    blockgroup)
     blks = blocksfortype(blocktype, blockgroup) 
     datalines = map(blk -> blk.lines, blks)
     Iterators.flatten(datalines) |> collect
@@ -18,7 +20,7 @@ end
 
 $(SIGNATURES)
 """
-function blocksfortype(blocktype, blockgroup)
+function blocksfortype(blocktype::AbstractString, blockgroup)
     filter(blk -> blk.label == blocktype, blockgroup)
 end
 
@@ -115,12 +117,3 @@ function relations(blocklist, coll::Cite2Urn)
     relationlines |> Iterators.flatten |> collect
 end
 
-
-"""Delegate `fromblocks` to specific functions based on 
-type's citable trait value.
-
-$(SIGNATURES)
-"""
-function fromblocks(blocklist::Vector{Block}, T; delimiter = "|")
-    fromcex(CitableTrait(T), s; delimiter = delimiter)
-end
