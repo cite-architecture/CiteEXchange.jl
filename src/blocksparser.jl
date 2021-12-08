@@ -16,15 +16,13 @@ function datamodels(blocklist::Vector{Block})
     nothing
 end
 
-
-"""Gather a (possibly empty) list of `Cite2Urn`s
-identifying all collections in a list of `Block`s.
+"""Gather a (possibly empty) list of `Block`s for a given data model.
 $(SIGNATURES)
+This could be multiple blocks for a collection or a relationset.
 """
-function collectionsformodel(modelurn::Cite2Urn, blocklist::Vector{Block})
+function blocksformodel(modelurn::Cite2Urn, blocklist::Vector{Block})
     nothing
 end
-
 
 
 """Gather data lines for a specified collection.
