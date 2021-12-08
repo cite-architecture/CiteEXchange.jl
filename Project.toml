@@ -5,7 +5,6 @@ version = "0.5.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-CitableLibrary = "6c9315e5-fa4f-4690-b204-3e7a32231dc4"
 CitableObject = "e2b2f5ea-1cd8-4ce8-9b2b-05dad64c2a57"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
@@ -14,7 +13,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 CSV = "0.9"
-CitableLibrary = "0.3"
 CitableObject = "0.9"
 DocStringExtensions = "0.8"
 Documenter = "0.27"

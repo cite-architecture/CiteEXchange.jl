@@ -64,3 +64,19 @@ $(SIGNATURES)
 function rawrelations(blocklist::Vector{Block})
     nothing
 end
+
+
+
+"""
+$(SIGNATURES)
+"""
+function emptycollections(blocklist::Vector{Block})
+    nothing
+end
+
+"""
+$(SIGNATURES)
+"""
+function emptyrelations(blocklist::Vector{Block})
+    nothing
+end

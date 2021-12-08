@@ -5,8 +5,6 @@ using  Documenter, DocStringExtensions
 using CitableObject
 using HTTP
 
-import CitableLibrary: CitableLibraryTrait
-
 include("blocks.jl")
 include("file.jl")
 include("blocksparser.jl")
