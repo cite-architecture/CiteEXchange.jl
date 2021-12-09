@@ -103,6 +103,39 @@ end
 
 
 
+function relationurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
+    urnlist = []
+    for dblock in citedatablocks
+        parts = split(dblock.lines[1], delimiter)
+        push!(urnlist, Cite2Urn(parts[2]))
+    end
+    urnlist |> unique
+end
+
+"""
+$(SIGNATURES)
+"""
+function laxrelations(blocklist::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
+    relationsets = []
+    # Collect unique URNs for ctsdata blocks
+    relsetblocks = blocksfortype("citerelationset", blocklist)
+    push!(relationsets, relationurns(relsetblocks, delimiter = delimiter))
+  
+    Iterators.flatten(relationsets) |> collect |> unique
+end
+
+
+function relationsets(blocklist::Vector{Block}; strict = true, delimiter = "|")::Vector{Cite2Urn}
+    if strict
+        @warn("Strict parsing not yet implemented")
+        laxrelations(blocklist, delimiter = delimiter)
+    else
+        laxrelations(blocklist, delimiter = delimiter)
+    end
+end
+
+
+
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all datamodels in a list of `Block`s.
 $(SIGNATURES)

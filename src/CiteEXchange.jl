@@ -13,7 +13,7 @@ export blocks, blocktypes, blocksfortype, datafortype
 export relations
 export cexversion 
 
-export collections, texts, datamodels
+export collections, texts, datamodels, relationsets
 
 
 end # module
