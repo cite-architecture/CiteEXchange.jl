@@ -1,5 +1,9 @@
 
-function lazyurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
+"""Lazily read URN values from `Blbck`s.  Assume that the first line is a header line to skip, and all other lines have a Cite2Urn in the first delimited column.
+
+$(SIGNATURES)
+"""
+function lazycite2urns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
     urnlist = []
     for dblock in citedatablocks
         for ln in dblock.lines[2:end]
@@ -12,17 +16,40 @@ function lazyurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cite2U
     urnlist |> unique
 end
 
+
+
+"""Lazily read URN values from `Blbck`s.  Assume that the first line is a header line to skip, and all other lines have a Cite2Urn in the first delimited column.
+
+$(SIGNATURES)
+"""
+function lazyctsurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{CtsUrn}
+    urnlist = []
+    for dblock in citedatablocks
+        for ln in dblock.lines[2:end]
+            # Assume URN is first field when not strict
+            parts = split(ln, delimiter)
+            u = CtsUrn(parts[1])
+            push!(urnlist, droppassage(u))
+        end
+    end
+    urnlist |> unique
+end
+
+"""Read collections data from a Vector of `Block`s without any cross
+checking for consistency of cataloging, property definitions and data sets.
+$(SIGNATURES)
+"""
 function laxcollections(blocklist::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
     collectionurns = []
     # Collect unique URNs for citedata blocks
     datablocks = blocksfortype("citedata", blocklist)
-    push!(collectionurns, lazyurns(datablocks, delimiter = delimiter))
+    push!(collectionurns, lazycite2urns(datablocks, delimiter = delimiter))
     # Collect unique URNs for citeproperty blocks
     propertyblocks = blocksfortype("citeproperties", blocklist)
-    push!(collectionurns, lazyurns(propertyblocks, delimiter = delimiter))
+    push!(collectionurns, lazycite2urns(propertyblocks, delimiter = delimiter))
     # Collect unique URNs for citecollection blocks
     catalogblocks = blocksfortype("citecollections", blocklist)
-    push!(collectionurns, lazyurns(catalogblocks, delimiter = delimiter))
+    push!(collectionurns, lazycite2urns(catalogblocks, delimiter = delimiter))
 
     Iterators.flatten(collectionurns) |> collect |> unique
 end
@@ -39,8 +66,42 @@ function collections(blocklist::Vector{Block}; strict = true, delimiter = "|")::
     else
         laxcollections(blocklist, delimiter = delimiter)
     end
-    
 end
+
+
+
+"""Read text data from a Vector of `Block`s without any cross
+checking for consistency of cataloging, property definitions and data sets.
+$(SIGNATURES)
+"""
+function laxtexts(blocklist::Vector{Block}; delimiter = "|")::Vector{CtsUrn}
+    texturns = []
+    # Collect unique URNs for ctsdata blocks
+    textblocks = blocksfortype("ctsdata", blocklist)
+    push!(texturns, lazyctsurns(textblocks, delimiter = delimiter))
+    # Collect unique URNs for ctscatalog blocks
+    catalogblocks = blocksfortype("ctscatalog", blocklist)
+    push!(texturns, lazyctsurns(catalogblocks, delimiter = delimiter))
+
+    Iterators.flatten(texturns) |> collect |> unique
+end
+
+
+"""Gather a (possibly empty) list of `Cite2Urn`s
+identifying all collections in a list of `Block`s.
+$(SIGNATURES)
+This needs to examine `citecollections`, `citeproperties`, and `citecdata` blocks.  If `strict` is true, all collections appearing in `citedata` blocks must be cataloged in `citecollections`, and header line must match `citeproperties`.
+"""
+function texts(blocklist::Vector{Block}; strict = true, delimiter = "|")::Vector{CtsUrn}
+    if strict
+        @warn("Strict parsing not yet implemented")
+        laxtexts(blocklist, delimiter = delimiter)
+    else
+        laxtexts(blocklist, delimiter = delimiter)
+    end
+end
+
+
 
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all datamodels in a list of `Block`s.

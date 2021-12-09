@@ -2,7 +2,7 @@
 module CiteEXchange
 
 using  Documenter, DocStringExtensions
-using CitableObject
+using CitableObject, CitableText
 using HTTP
 
 include("blocks.jl")
@@ -13,7 +13,7 @@ export blocks, blocktypes, blocksfortype, datafortype
 export relations
 export cexversion 
 
-export collections, datamodels
+export collections, texts, datamodels
 
 
 end # module
