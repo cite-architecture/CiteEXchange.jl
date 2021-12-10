@@ -12,14 +12,14 @@ end
     blockgroup = CiteEXchange.fromfile(f)
     @test length(blockgroup) == 3
     
-    rawrelset = datafortype("citerelationset", blockgroup)
+    rawrelset = relationsdata(blockgroup, Cite2Urn("urn:cite2:hmt:dse.v1:msBil8"))
     @test eltype(rawrelset) <: AbstractString
-    @test length(rawrelset) == 10
+    @test length(rawrelset) == 3
 
     urn = Cite2Urn("urn:cite2:hmt:dse.v1:")
-    relationdata = relations(blockgroup, urn)
-    @test eltype(relationdata) <: AbstractString
-    @test length(relationdata) == 6
+    reldata = relationsdata(blockgroup, urn)
+    @test eltype(reldata) <: AbstractString
+    @test length(reldata) == 6
 
 end
 

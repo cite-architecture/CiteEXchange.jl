@@ -101,24 +101,23 @@ end
 """
 $(SIGNATURES)
 """
+#=
 function laxrelations(blocklist::Vector{Block}; delimiter = "|")#::Vector{Cite2Urn}
     # Collect unique URNs for citerelationset blocks
     relsetblocks = blocksfortype("citerelationset", blocklist)
     relations(relsetblocks, delimiter = delimiter) |> unique
 end
+=#
 
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all relation sets in a list of `Block`s.
 $(SIGNATURES)
 If `strict` is true, all relations sets appearing in `relationsets` blocks must appear in a `datamodel` entry.
 """
-function relationsets(blocklist::Vector{Block}; strict = true, delimiter = "|")#::Vector{Cite2Urn}
-    if strict
-        @warn("Strict parsing not yet implemented")
-        laxrelations(blocklist, delimiter = delimiter)
-    else
-        laxrelations(blocklist, delimiter = delimiter)
-    end
+function relationsets(blocklist::Vector{Block}; delimiter = "|")#::Vector{Cite2Urn}
+   
+        #laxrelations(blocklist, delimiter = delimiter)
+
 end
 
 """Gather a (possibly empty) list of `Cite2Urn`s
@@ -136,12 +135,6 @@ function datamodels(blocklist::Vector{Block}; delimiter = "|")
     end
     unique(dmurns)
 end
-
-
-
-
-
-
 
 
 
@@ -170,14 +163,6 @@ function catalogforcollection(coll::Cite2Urn, blocklist::Vector{Block})
 end
 
 
-"""Gather data lines for a specified relation sets
-$(SIGNATURES)
-"""
-function dataforrelations(coll::Cite2Urn, blocklist::Vector{Block})
-    nothing
-end
-
-
 """
 $(SIGNATURES)
 """
@@ -188,22 +173,7 @@ end
 """
 $(SIGNATURES)
 """
-function rawrelations(blocklist::Vector{Block})
-    nothing
-end
-
-
-
-"""
-$(SIGNATURES)
-"""
 function emptycollections(blocklist::Vector{Block})
     nothing
 end
 
-"""
-$(SIGNATURES)
-"""
-function emptyrelations(blocklist::Vector{Block})
-    nothing
-end
