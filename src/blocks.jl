@@ -104,7 +104,7 @@ end
 
 $(SIGNATURES)
 """
-function relations(blocklist, coll::Cite2Urn)
+function relationsdata(blocklist, coll::Cite2Urn)
     relationblocks = filter(b -> b.label == "citerelationset", blocklist)
     relationlines = []
     for blk in relationblocks

@@ -9,10 +9,12 @@ include("blocks.jl")
 include("file.jl")
 include("blocksparser.jl")
 
-export blocks, blocktypes, blocksfortype, datafortype
-export relations
 export cexversion 
 
+# Blocks and raw data
+export blocks, blocktypes, blocksfortype
+export datafortype, relationsdata
+# Identifying URNs:
 export collections, texts, datamodels, relationsets
 
 

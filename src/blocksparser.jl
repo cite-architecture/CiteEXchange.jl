@@ -1,4 +1,3 @@
-
 """Lazily read URN values from `Blbck`s.  Assume that the first line is a header line to skip, and all other lines have a Cite2Urn in the first delimited column.
 
 $(SIGNATURES)
@@ -35,7 +34,7 @@ function lazyctsurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cts
     urnlist |> unique
 end
 
-"""Read collections data from a Vector of `Block`s without any cross
+"""Gather unique collection identifiers for collections data from a Vector of `Block`s without any cross
 checking for consistency of cataloging, property definitions and data sets.
 $(SIGNATURES)
 """
@@ -68,8 +67,6 @@ function collections(blocklist::Vector{Block}; strict = true, delimiter = "|")::
     end
 end
 
-
-
 """Read text data from a Vector of `Block`s without any cross
 checking for consistency of cataloging, property definitions and data sets.
 $(SIGNATURES)
@@ -101,31 +98,21 @@ function texts(blocklist::Vector{Block}; strict = true, delimiter = "|")::Vector
     end
 end
 
-
-
-function relationurns(citedatablocks::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
-    urnlist = []
-    for dblock in citedatablocks
-        parts = split(dblock.lines[1], delimiter)
-        push!(urnlist, Cite2Urn(parts[2]))
-    end
-    urnlist |> unique
-end
-
 """
 $(SIGNATURES)
 """
-function laxrelations(blocklist::Vector{Block}; delimiter = "|")::Vector{Cite2Urn}
-    relationsets = []
-    # Collect unique URNs for ctsdata blocks
+function laxrelations(blocklist::Vector{Block}; delimiter = "|")#::Vector{Cite2Urn}
+    # Collect unique URNs for citerelationset blocks
     relsetblocks = blocksfortype("citerelationset", blocklist)
-    push!(relationsets, relationurns(relsetblocks, delimiter = delimiter))
-  
-    Iterators.flatten(relationsets) |> collect |> unique
+    relations(relsetblocks, delimiter = delimiter) |> unique
 end
 
-
-function relationsets(blocklist::Vector{Block}; strict = true, delimiter = "|")::Vector{Cite2Urn}
+"""Gather a (possibly empty) list of `Cite2Urn`s
+identifying all relation sets in a list of `Block`s.
+$(SIGNATURES)
+If `strict` is true, all relations sets appearing in `relationsets` blocks must appear in a `datamodel` entry.
+"""
+function relationsets(blocklist::Vector{Block}; strict = true, delimiter = "|")#::Vector{Cite2Urn}
     if strict
         @warn("Strict parsing not yet implemented")
         laxrelations(blocklist, delimiter = delimiter)
@@ -134,15 +121,29 @@ function relationsets(blocklist::Vector{Block}; strict = true, delimiter = "|"):
     end
 end
 
-
-
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all datamodels in a list of `Block`s.
 $(SIGNATURES)
 """
-function datamodels(blocklist::Vector{Block})
-    nothing
+function datamodels(blocklist::Vector{Block}; delimiter = "|")
+    dmurns = []
+    dmblocks = blocksfortype("datamodels", blocklist)
+    for blk in dmblocks
+        for dm in blk.lines[2:end]
+            parts = split(dm, delimiter)
+            push!(dmurns, Cite2Urn(parts[1]))
+        end
+    end
+    unique(dmurns)
 end
+
+
+
+
+
+
+
+
 
 """Gather a (possibly empty) list of `Block`s for a given data model.
 $(SIGNATURES)
