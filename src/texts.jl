@@ -1,4 +1,34 @@
 
+"""Extract from a list of `Block`s ctsdata lines with URNs contained
+by a given URN.
+$(SIGNATURES)
+"""
+function dataforctsurn(citeblocks::Vector{Block}, u::CtsUrn; delimiter = "|")
+    allblocks = blocksfortype("ctsdata", citeblocks)
+    data = []
+    for blk in allblocks
+        for ln in blk.lines
+            parts = split(ln, delimiter)
+            if urncontains(u, CtsUrn(parts[1]))
+                push!(data, ln)
+            end
+        end
+    end
+    data
+end
+
+function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|")
+    citeblocks = blocks(cexsrc)
+    corpora = []
+    specialcases = filter(k -> k isa CtsUrn, keys(typesdict))
+    for special in specialcases
+        data = dataforctsurn(citeblocks, special, delimiter = delimiter)
+        @info(typesdict[special])
+        push!(corpora, fromcex())
+    end
+
+end
+
 """Read text data from a Vector of `Block`s without any cross
 checking for consistency of cataloging, property definitions and data sets.
 $(SIGNATURES)
