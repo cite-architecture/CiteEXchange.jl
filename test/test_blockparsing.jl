@@ -20,5 +20,5 @@ Collection#Model#Label#Description
 urn:cite2:hmt:burney86pages.v1:#urn:cite2:cite:datamodels.v1:tbsmodel#Model of Burney 86 codex#British Library, Bureny 86, in the CITE model of a sequence of text-bearing surfaces
 """
     expected = [Cite2Urn("urn:cite2:hmt:burney86pages.v1:")]
-    @test datamodels(blocks(s)) == expected
+    @test datamodels(blocks(s), delimiter = "#") == expected
 end

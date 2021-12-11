@@ -8,6 +8,9 @@ using HTTP
 include("blocks.jl")
 include("file.jl")
 include("blocksparser.jl")
+include("relations.jl")
+include("collections.jl")
+include("texts.jl")
 
 export cexversion 
 

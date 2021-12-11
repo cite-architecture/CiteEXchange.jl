@@ -89,7 +89,7 @@ urn#label#passage#critsign#sequence
 urn:cite2:hmt:va_signs.v1:cs0#diple on Iliad 1.2#urn:cts:greekLit:tlg0012.tlg001.msA:1.2#urn:cite2:hmt:critsigns.v1:diple#0
 """
     blkgroup = blocks(cex)
-    @test cexversion(blkgroup) == "3.1"
+    @test cexversion(blkgroup) == v"3.1"
 end
 
 

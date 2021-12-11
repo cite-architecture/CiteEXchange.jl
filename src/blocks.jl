@@ -8,9 +8,7 @@ end
 
 $(SIGNATURES)
 """
-function datafortype(
-    blocktype::AbstractString, 
-    blockgroup)
+function datafortype(blocktype::AbstractString, blockgroup::Vector{Block})
     blks = blocksfortype(blocktype, blockgroup) 
     datalines = map(blk -> blk.lines, blks)
     Iterators.flatten(datalines) |> collect
@@ -20,7 +18,7 @@ end
 
 $(SIGNATURES)
 """
-function blocksfortype(blocktype::AbstractString, blockgroup)
+function blocksfortype(blocktype::AbstractString, blockgroup::Vector{Block})
     filter(blk -> blk.label == blocktype, blockgroup)
 end
 
@@ -28,7 +26,7 @@ end
 
 $(SIGNATURES)
 """
-function blocktypes(blockgroup)
+function blocktypes(blockgroup::Vector{Block})::Vector{AbstractString}
     map(blk -> blk.label, blockgroup) |> unique
 end
 
@@ -36,7 +34,7 @@ end
 
 $(SIGNATURES)
 """
-function blocktype(s::AbstractString)
+function blocktype(s::AbstractString)::Union{AbstractString, Nothing}
     validtypes = [
         "cexversion",
         "citelibrary",
@@ -63,7 +61,7 @@ end
 
 $(SIGNATURES)
 """
-function blocks(s::AbstractString)
+function blocks(s::AbstractString)::Vector{Block}
     blockgroup = Block[]
     blocks = split(s, "#!")
     for block in blocks
@@ -89,31 +87,15 @@ $(SIGNATURES)
 
 Return nothing if no version specified.
 """
-function cexversion(group)
+function cexversion(group)::Union{VersionNumber, Nothing}
     versiondata = datafortype("cexversion", group)
     if length(versiondata) != 1
         @warn "Error: $(length(versiondata)) lines of version data found."
         nothing
     else
-        versiondata[1]
+        versiondata[1] |> VersionNumber
     end
 end
 
-"""Extract data from all relation sets where relation belongs to a specified collection.
 
-
-$(SIGNATURES)
-"""
-function relationsdata(blocklist, coll::Cite2Urn)
-    relationblocks = filter(b -> b.label == "citerelationset", blocklist)
-    relationlines = []
-    for blk in relationblocks
-        urnstr = replace(blk.lines[1], "urn|" => "")
-        objurn = Cite2Urn(urnstr)
-        if urncontains(coll, objurn)
-            push!(relationlines, blk.lines[3:end])
-        end
-    end
-    relationlines |> Iterators.flatten |> collect
-end
 
