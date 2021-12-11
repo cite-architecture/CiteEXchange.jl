@@ -11,6 +11,7 @@ include("blocksparser.jl")
 include("relations.jl")
 include("collections.jl")
 include("texts.jl")
+include("library.jl")
 
 export cexversion 
 
@@ -19,6 +20,6 @@ export blocks, blocktypes, blocksfortype
 export datafortype, relationsdata
 # Identifying URNs:
 export collections, texts, datamodels, relationsets
-
+export library
 
 end # module
