@@ -24,9 +24,9 @@ function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|")
     for special in specialcases
         data = dataforctsurn(citeblocks, special, delimiter = delimiter)
         @info(typesdict[special])
-        push!(corpora, fromcex())
+        push!(corpora, fromcex(cexsrc, typesdict[special]))
     end
-
+    corpora
 end
 
 """Read text data from a Vector of `Block`s without any cross
