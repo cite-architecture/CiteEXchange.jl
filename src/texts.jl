@@ -17,14 +17,29 @@ function dataforctsurn(citeblocks::Vector{Block}, u::CtsUrn; delimiter = "|")
     data
 end
 
+
+"""Instantiate text corpora from CEX source.
+$(SIGNATURES)
+`typesdict` can map either or both of:
+
+1. a string for the block label `ctsdata`
+2. a CtsUrn 
+
+These keys should point to a Julia type implementing the `CitableLibraryTrait` (including the `fromcex` function).
+"""
 function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|")
     citeblocks = blocks(cexsrc)
     corpora = []
     specialcases = filter(k -> k isa CtsUrn, keys(typesdict))
     for special in specialcases
-        data = dataforctsurn(citeblocks, special, delimiter = delimiter)
-        @info(typesdict[special])
+        #data = dataforctsurn(citeblocks, special, delimiter = delimiter)
+        #@info(typesdict[special])
         push!(corpora, fromcex(cexsrc, typesdict[special]))
+    end
+    # Now get corpora that are not special.
+    if "ctsdata" in keys(typesdict)
+        # collect all copora that are NOT special.
+
     end
     corpora
 end
