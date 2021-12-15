@@ -27,8 +27,13 @@ $(SIGNATURES)
 
 These keys should point to a Julia type implementing the `CitableLibraryTrait` (including the `fromcex` function).
 """
-function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|")
-    citeblocks = blocks(cexsrc)
+function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
+    if strict
+        @warn("instantiatetexts: strict parsing not yet implemented")
+    end
+    texturns = texts(blocks(cexsrc), delimiter = delimiter, strict = strict)
+
+
     corpora = []
     specialcases = filter(k -> k isa CtsUrn, keys(typesdict))
     for special in specialcases

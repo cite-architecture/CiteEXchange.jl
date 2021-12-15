@@ -1,15 +1,33 @@
-function laxlibrary(citeblocks::Vector{Block}, typesdict; delimiter = "|")
-    texturns = texts(citeblocks, delimiter = delimiter, strict = false)
+"""Lazily construct a `CiteLibrary` from CEX source string and 
+a dictionary mapping content to Julia types.  Data for text corpora and CITE collections are not required to be cataloged in corresponding CEX blocks.
+$(SIGNATURES)
+"""
+function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
+    citables = []
+    corpora = instantiatetexts(cexsrc, typesdict, delimiter = delimiter, strict = false)
+    if ! isempty(corpora)
+        push!(citables, corpora)
+    end
+
+    #=texturns = texts(citeblocks, delimiter = delimiter, strict = false)
     collectionurns = collections(citeblocks, delimiter = delimiter, strict = false)
     relseturns = relationsets(citeblocks, delimiter = delimiter)
     (texturns, collectionurns, relseturns)
+    =#
+
+    # Flatten the citables list:
+    citables |> Iterators.flatten |> collect |> citeLibrary
 end
 
-function library(citeblocks::Vector{Block}, typesdict; delimiter = "|", strict = true)
+"""Construct a `CiteLibrary` from CEX source string and 
+a dictionary mapping content to Julia types.
+$(SIGNATURES)
+"""
+function library(cexsrc::AbstractString, typesdict; delimiter = "|", strict = true)
     if strict
         @warn("Strict parsing not yet implemented.")
-        laxlibrary(citeblocks, typesdict, delimiter = delimiter)
+        laxlibrary(cexsrc, typesdict, delimiter = delimiter)
     else
-        laxlibrary(citeblocks, typesdict, delimiter = delimiter)
+        laxlibrary(cexsrc, typesdict, delimiter = delimiter)
     end
 end

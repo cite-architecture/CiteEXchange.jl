@@ -6,6 +6,7 @@ using CitableObject, CitableText
 import CitableBase: CexSerializable
 import CitableBase: fromcex
 import CitableBase: CitableTrait
+using CitableLibrary
 using HTTP
 
 include("blocks.jl")
