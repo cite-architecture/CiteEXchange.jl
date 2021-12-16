@@ -44,7 +44,10 @@ function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|", st
     # Now get corpora that are not special.
     if "ctsdata" in keys(typesdict)
         # collect all copora that are NOT special.
-
+        # Then something similar to:
+        #ctsblocks = ....
+        #dataforctsurn(ctsblocks,...)
+        #push!(corpora, fromcex(cexsrc, typesdict["ctsdata"]))
     end
     corpora
 end
