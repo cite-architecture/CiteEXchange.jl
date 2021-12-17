@@ -43,6 +43,12 @@ using CiteEXchange
 using CitableLibrary
 ```
 
+
+
+> In the following example, we've predefined a CEX string `relationscex`.
+>
+> (*ADD REFERENCE HERE TO FILES WHERE YOU CAN INSPECT THEM*)
+
 ## Create a custom type for relation sets
 
 ```@example library

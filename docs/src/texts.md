@@ -28,6 +28,9 @@ urn:cts:citedemo:gburg.nicolay.v2:4|It is rather for us, the living, we here be 
 
 # Building a library from CEX using customized text corpora
 
+> In the following example, we've predefined a CEX string `textcex`.
+>
+> (*ADD REFERENCE HERE TO FILES WHERE YOU CAN INSPECT THEM*)
 
 Required Julia packages:
 

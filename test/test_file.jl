@@ -10,7 +10,7 @@ end
 @testset "Test reading data for block" begin
     f = "assets/relationblocks.cex"
     blockgroup = CiteEXchange.fromfile(f)
-    @test length(blockgroup) == 3
+    @test length(blockgroup) == 4
     
     rawrelset = relationsdata(blockgroup, Cite2Urn("urn:cite2:hmt:dse.v1:msBil8"))
     @test eltype(rawrelset) <: AbstractString
