@@ -1,45 +1,57 @@
 
-"""Map models to URNs of implementations as collections or relationsets.
+
+"""Instantiate relation sets from CEX source.
 $(SIGNATURES)
+Keys in `typesdict` may be either of:
+
+1. a `Cite2Urn` identifying the relation set (possibly by URN containment)
+2. a `Cite2Urn` identifying a datamodel defined in `cexsrc`
+
+These keys should point to a Julia type implementing the `CitableLibraryTrait` (including the `fromcex` function).
 """
-function modeldict(blocklist::Vector{Block}; delimiter = "|")
-    mappings = Dict()
-    dms = blocksfortype("datamodels", blocklist)
-    for dm in dms
-        # skip header:
-        for mapping in dm.lines[2:end]
-            cols = split(mapping, delimiter)
-            dmurn = Cite2Urn(cols[2])
-            target = Cite2Urn(cols[1])
-            #mappings[target] = dmurn
-            if haskey(mappings, dmurn)
-                prev = mappings[dmurn]
-                curr = push!(prev, target)
-            else
-                mappings[dmurn] = [target]
-            end
-        end
-    end
-    mappings
-end
-
-
 function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
     if strict
         @warn("instantiaterelations: strict parsing not yet implemented")
     end
     allblocks = blocks(cexsrc)
-    models = datamodels(allblocks, delimiter = delimiter)
     relseturns = relationsets(allblocks, delimiter = delimiter)
 
+    # get urns for sets directly mapped to a Julia type
+    directlymapped = []
+    for seturn in relseturns
+        for k in  keys(typesdict)
+            @warn("CHECK ", seturn)
+            if (k isa Cite2Urn) && urncontains(k, seturn)
+                push!(directlymapped, seturn)
+            end
+        end
+    end
 
+
+    # get urns for sets following a data model
+    dmdict = modelleddict(allblocks, delimiter = delimiter)
+    modelled = []
+    for seturn in relseturns
+        for k in keys(dmdict)
+            if urncontains(k, seturn)
+                push!(modelled, seturn)
+            end
+        end
+    end
+    
 
     relsets = []
-end
+    for directurn in directlymapped
+        #directdata = dataforsurn(allblocks, regularurn, delimiter = delimiter)
+        #regularcex = "#!ctsdata\n" * join(regulardata, "\n") * "\n"
+        #push!(corpora, fromcex(regularcex, typesdict["ctsdata"]))
+    end
 
-function relationsformodel(blocklist::Vector{Block}, model::Cite2Urn; delimiter = "|")
-    relseturns = relationsets(allblocks, delimiter = delimiter)
-
+    for modelledurn in setdiff(modelled, diretlymapped)
+    end
+    
+    # temp display
+    (directlymapped, modelled)
 
 end
 

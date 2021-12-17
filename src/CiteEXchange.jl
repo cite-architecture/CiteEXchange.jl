@@ -14,6 +14,7 @@ include("file.jl")
 include("blocksparser.jl")
 include("relations.jl")
 include("collections.jl")
+include("datamodels.jl")
 include("texts.jl")
 include("library.jl")
 
