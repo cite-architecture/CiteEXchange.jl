@@ -90,37 +90,45 @@ end
 ## Build from CEX source
 
 
-Build a library by mapping specific DSE relation sets to our new class.
+Now we can build a library by mapping specific DSE relation sets to our new class. Each of the following three examples instantiates
+
+## Containing URN
+
+In this example, we map a collection-level URN to our class.  This will get both collections in our CEX, since they are both members of that collection.
+
+
 
 ```@example library
 hmtdse = Cite2Urn("urn:cite2:hmt:dse.v1:")
 tdict1 = Dict(hmtdse => MyDSESet)
-lib = library(relationcex, tdict1)
+lib1 = library(relationcex, tdict1)
 ```
 
+## Data model
 
-
-Build a library by mapping a data model for DSE relation sets to our new class. This mapping will be applied to all relation sets that the source CEX defines as implementing the mapped models.
+This time, we map a data model for DSE relation sets to our new class. This mapping will be applied to all relation sets that the source CEX defines as implementing the mapped models.
 
 ```@example library
-model = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
-tdict2 = Dict(model => MyDSESet)
-lib = library(relationcex, tdict2)
+modelurn = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
+tdict2 = Dict(modelurn => MyDSESet)
+lib2 = library(relationcex, tdict2)
 ```
 
-modelurn = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
-urn:cite2:cite:datamodels.v1:dsemodel
 
-julia> vburn = Cite2Urn("urn:cite2:hmt:dse.v1:msBil8")
-urn:cite2:hmt:dse.v1:msBil8
+## Mixed dictionary
 
-julia> mixed = Dict(modelurn => MyDSESet, vburn => MyDSESet)
-Dict{Cite2Urn, DataType} with 2 entries:
-  urn:cite2:cite:datamodels.v1:dsemodel => MyDSESet
-  urn:cite2:hmt:dse.v1:msBil8           => MyDSESet
 
-julia> vbdict = Dict(vburn => MyDSESet)
-Dict{Cite2Urn, DataType} with 1 entry:
-  urn:cite2:hmt:dse.v1:msBil8 => MyDSESet
+```@example library
+vburn = Cite2Urn("urn:cite2:hmt:dse.v1:msBil8")
+tdict3 = Dict(vburn => MyDSESet, modelurn => MyDSESet)
+lib3 = library(relationcex, tdict3)
+```
 
-julia> modeldict = Dict(modelurn => MyDSESet)
+## Include only some relations
+
+
+
+```@example library
+tdict4 = Dict(vburn => MyDSESet)
+lib4 = library(relationcex, tdict4)
+```
