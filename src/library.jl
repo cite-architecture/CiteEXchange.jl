@@ -14,7 +14,6 @@ function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
         push!(citables, relsets)
     end
 
-
     citecolls = instantiatecollections(cexsrc, typesdict, delimiter = delimiter, strict = false)
     if ! isempty(citecolls)
         push!(citables, citecolls)

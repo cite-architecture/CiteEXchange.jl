@@ -24,6 +24,7 @@ export blocks, blocktypes, blocksfortype
 export datafortype, relationsdata
 # Identifying URNs:
 export collections, texts, datamodels, relationsets
+export relationsformodel, collectionsformodel
 export library
 
 end # module
