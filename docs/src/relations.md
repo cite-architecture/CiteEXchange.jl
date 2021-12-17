@@ -84,11 +84,20 @@ end
 ## Build from CEX source
 
 
+Build a library by mapping specific DSE relation sets to our new class.
 
 ```@example library
 hmtdse = Cite2Urn("urn:cite2:hmt:dse.v1:")
-tdict2 = Dict(hmtdse => MyDSESet)
-lib = library(relationcex, tdict2)
+tdict1 = Dict(hmtdse => MyDSESet)
+lib = library(relationcex, tdict1)
 ```
 
 
+
+Build a library by mapping a data model for DSE relation sets to our new class. This mapping will be applied to all relation sets that the source CEX defines as implementing the mapped models.
+
+```@example library
+model = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
+tdict2 = Dict(model => MyDSESet)
+lib = library(relationcex, tdict2)
+```

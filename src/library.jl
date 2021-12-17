@@ -19,12 +19,6 @@ function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
         push!(citables, citecolls)
     end
 
-    #=texturns = texts(citeblocks, delimiter = delimiter, strict = false)
-    collectionurns = collections(citeblocks, delimiter = delimiter, strict = false)
-    relseturns = relationsets(citeblocks, delimiter = delimiter)
-    (texturns, collectionurns, relseturns)
-    =#
-
     # Flatten the citables list:
     citables |> Iterators.flatten |> collect |> citeLibrary
 end
