@@ -1,4 +1,5 @@
 
+
 """Extract from a list of `Block`s ctsdata lines with URNs contained
 by a given URN.
 $(SIGNATURES)
@@ -31,24 +32,34 @@ function instantiatetexts(cexsrc::AbstractString, typesdict; delimiter = "|", st
     if strict
         @warn("instantiatetexts: strict parsing not yet implemented")
     end
-    texturns = texts(blocks(cexsrc), delimiter = delimiter, strict = strict)
-
-
+    allblocks = blocks(cexsrc)
+    alltexturns = texts(allblocks, delimiter = delimiter, strict = strict)
+    specialtexts = filter(k -> k isa CtsUrn, keys(typesdict)) |> collect
+    regulartexts = []
+    for texturn in alltexturns
+        for special in specialtexts
+            if ! urncontains(special, texturn)
+                push!(regulartexts, texturn)
+            end
+        end
+    end
+    
     corpora = []
-    specialcases = filter(k -> k isa CtsUrn, keys(typesdict))
-    for special in specialcases
-        #data = dataforctsurn(citeblocks, special, delimiter = delimiter)
-        #@info(typesdict[special])
-        push!(corpora, fromcex(cexsrc, typesdict[special]))
+    # Extra data by URN, and apply approrpiate type:
+    # first, special list:
+    for special in specialtexts
+        specialdata = dataforctsurn(allblocks, special, delimiter = delimiter)
+        specialcex = "#!ctsdata\n" * join(specialdata, "\n") * "\n"
+        push!(corpora, fromcex(specialcex, typesdict[special]))
     end
     # Now get corpora that are not special.
-    if "ctsdata" in keys(typesdict)
-        # collect all copora that are NOT special.
-        # Then something similar to:
-        #ctsblocks = ....
-        #dataforctsurn(ctsblocks,...)
-        #push!(corpora, fromcex(cexsrc, typesdict["ctsdata"]))
+    #if "ctsdata" in keys(typesdict)
+    for regularurn in regulartexts
+        regulardata = dataforctsurn(allblocks, regularurn, delimiter = delimiter)
+        regularcex = "#!ctsdata\n" * join(regulardata, "\n") * "\n"
+        push!(corpora, fromcex(regularcex, typesdict["ctsdata"]))
     end
+    #end
     corpora
 end
 

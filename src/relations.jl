@@ -1,4 +1,8 @@
 
+
+function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
+    relsets = []
+end
 """Gather a (possibly empty) list of `Cite2Urn`s
 identifying all relation sets in a list of `Block`s.
 $(SIGNATURES)

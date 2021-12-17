@@ -9,6 +9,17 @@ function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
         push!(citables, corpora)
     end
 
+    relsets = instantiaterelations(cexsrc, typesdict, delimiter = delimiter, strict = false)
+    if ! isempty(relsets)
+        push!(citables, relsets)
+    end
+
+
+    citecolls = instantiatecollections(cexsrc, typesdict, delimiter = delimiter, strict = false)
+    if ! isempty(citecolls)
+        push!(citables, citecolls)
+    end
+
     #=texturns = texts(citeblocks, delimiter = delimiter, strict = false)
     collectionurns = collections(citeblocks, delimiter = delimiter, strict = false)
     relseturns = relationsets(citeblocks, delimiter = delimiter)

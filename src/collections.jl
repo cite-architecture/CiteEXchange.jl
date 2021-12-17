@@ -1,5 +1,10 @@
 
 
+function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
+    citecolls = []
+end
+
+
 """Gather unique set of `Cite2Urn`s identifying collections data from a Vector of `Block`s,
 without applying any cross
 checking for consistency of cataloging, property definitions and data sets.

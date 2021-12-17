@@ -4,6 +4,10 @@ struct Block
     lines
 end
 
+
+function blocktocex(b::Block)
+    join(["!#", b.label, "\n"]) * join(b.lines, "\n") * "\n"
+end
 """Find blocks of a given type in a blockgroup.
 
 $(SIGNATURES)
