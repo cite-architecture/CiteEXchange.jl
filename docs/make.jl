@@ -22,6 +22,9 @@ makedocs(
     pages = [
         "Overview" => "index.md",
         "Instantiating content from CEX source" => "library.md",
+        "Custom text corpus" => "texts.md",
+        "Custom relation set" => "relations.md",
+        "Custom CITE collection" => "collections.md",
 
         "API documentation" => "apis.md"
     ]

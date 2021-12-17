@@ -5,10 +5,14 @@ struct Block
 end
 
 
+"""Serialized `b` in CEX format.
+$(SIGNATURES)
+"""
 function blocktocex(b::Block)
     join(["!#", b.label, "\n"]) * join(b.lines, "\n") * "\n"
 end
-"""Find blocks of a given type in a blockgroup.
+
+"""Find data lines for all blocks of a given type in a blockgroup.
 
 $(SIGNATURES)
 """

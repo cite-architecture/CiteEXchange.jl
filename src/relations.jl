@@ -1,4 +1,35 @@
+"""For a block of type `citerelationset`, return `Cite2Urn`
+identifying the set.
+$(SIGNATURES)
+"""
+function relationseturn(relationblock::Block; divider = "|")
+    if relationblock.label != "citerelationset"
+        throw(DomainError(relationblock,"Block is not of type `citerelationset`"))
+    else
+        parts = split(relationblock.lines[1],divider)
+        if parts[1] != "urn"
+            throw(DomainError(relationblock.lines[1], "First data line must define URN for relation set. "))
+        end
+        Cite2Urn(parts[2])
+    end
+end
 
+
+"""Find data for all relationsets matching URN value `u`.
+$(SIGNATURES)
+"""
+function relationsdataforurn(citeblocks::Vector{Block}, u::Cite2Urn; delimiter = "|")
+    allblocks = blocksfortype("citerelationset", citeblocks)
+    data = []
+    for blk in allblocks
+        if urncontains(u, relationseturn(blk))
+            for ln in blk.lines
+                push!(data, ln)
+            end 
+        end
+    end
+    data
+end
 
 """Instantiate relation sets from CEX source.
 $(SIGNATURES)
@@ -17,41 +48,48 @@ function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|"
     relseturns = relationsets(allblocks, delimiter = delimiter)
 
     # get urns for sets directly mapped to a Julia type
-    directlymapped = []
+    directlymapped = Dict()
     for seturn in relseturns
         for k in  keys(typesdict)
             @warn("CHECK ", seturn)
             if (k isa Cite2Urn) && urncontains(k, seturn)
-                push!(directlymapped, seturn)
+                #push!(directlymapped, seturn)
+                directlymapped[seturn] = typesdict[k]
             end
         end
     end
 
-
     # get urns for sets following a data model
     dmdict = modelleddict(allblocks, delimiter = delimiter)
-    modelled = []
+    modelled = Dict()
     for seturn in relseturns
         for k in keys(dmdict)
             if urncontains(k, seturn)
-                push!(modelled, seturn)
+                #push!(modelled, seturn)
+                modelled[seturn] = dmdict[k]
             end
         end
     end
     
 
     relsets = []
-    for directurn in directlymapped
-        #directdata = dataforsurn(allblocks, regularurn, delimiter = delimiter)
-        #regularcex = "#!ctsdata\n" * join(regulardata, "\n") * "\n"
-        #push!(corpora, fromcex(regularcex, typesdict["ctsdata"]))
+    for directurn in keys(directlymapped)
+        directdata = relationsdataforurn(allblocks, directurn, delimiter = delimiter)
+        directcex = "#!citerelationset\n" * join(directdata, "\n") * "\n"
+
+        push!(relsets, fromcex(directcex, directlymapped[directurn]))
     end
 
-    for modelledurn in setdiff(modelled, diretlymapped)
+    for modelledurn in setdiff(keys(modelled), keys(directlymapped))
+        modelleddata = relationsdataforurn(allblocks, modelledurn, delimiter = delimiter)
+        modelledcex = "#!citerelationset\n" * join(modelleddata, "\n") * "\n"
+   
+        push!(relsets, fromcex(modelledcex, directlymapped[modelledurn]))
     end
     
     # temp display
     (directlymapped, modelled)
+    relsets
 
 end
 
