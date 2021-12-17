@@ -1,6 +1,7 @@
 
 
 function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
+    #    collectionurns = collections(citeblocks, delimiter = delimiter, strict = false)
     citecolls = []
 end
 
