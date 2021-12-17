@@ -17,18 +17,21 @@ end
 
 """Find data for all relationsets matching URN value `u`.
 $(SIGNATURES)
+Shouldl return a *Vector*.
 """
 function relationsdataforurn(citeblocks::Vector{Block}, u::Cite2Urn; delimiter = "|")
     allblocks = blocksfortype("citerelationset", citeblocks)
-    data = []
+    blocksdata = []
     for blk in allblocks
+        data = []
         if urncontains(u, relationseturn(blk))
             for ln in blk.lines
                 push!(data, ln)
             end 
         end
+        push!(blocksdata, data)
     end
-    data
+    filter(v -> ! isempty(v), blocksdata)
 end
 
 """Instantiate relation sets from CEX source.
@@ -50,47 +53,45 @@ function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|"
     # get urns for sets directly mapped to a Julia type
     directlymapped = Dict()
     for seturn in relseturns
-        for k in  keys(typesdict)
-            @warn("CHECK ", seturn)
+        for k in keys(typesdict)
             if (k isa Cite2Urn) && urncontains(k, seturn)
-                #push!(directlymapped, seturn)
                 directlymapped[seturn] = typesdict[k]
             end
         end
     end
 
     # get urns for sets following a data model
-    dmdict = modelleddict(allblocks, delimiter = delimiter)
     modelled = Dict()
-    for seturn in relseturns
-        for k in keys(dmdict)
-            if urncontains(k, seturn)
-                #push!(modelled, seturn)
-                modelled[seturn] = dmdict[k]
+    dmdict = modelleddict(allblocks, delimiter = delimiter)
+    for k in keys(dmdict)
+        coll = k
+        collmodel = dmdict[k]
+
+        #@warn("For", coll, collmodel, collmodel in collect(keys(typesdict)))
+        for tkey in keys(typesdict)
+            if tkey == collmodel
+                modeltype = typesdict[tkey]
+                modelled[coll] = modeltype
             end
         end
     end
-    
+      
 
     relsets = []
     for directurn in keys(directlymapped)
         directdata = relationsdataforurn(allblocks, directurn, delimiter = delimiter)
-        directcex = "#!citerelationset\n" * join(directdata, "\n") * "\n"
+        directcex = map(rset -> "#!citerelationset\n" * join(rset, "\n") * "\n", directdata)
+        #"#!citerelationset\n" * join(directdata, "\n") * "\n"
 
-        push!(relsets, fromcex(directcex, directlymapped[directurn]))
+        push!(relsets, fromcex(join(directcex, "\n"), directlymapped[directurn]))
     end
 
     for modelledurn in setdiff(keys(modelled), keys(directlymapped))
         modelleddata = relationsdataforurn(allblocks, modelledurn, delimiter = delimiter)
-        modelledcex = "#!citerelationset\n" * join(modelleddata, "\n") * "\n"
-   
-        push!(relsets, fromcex(modelledcex, directlymapped[modelledurn]))
+        modelledcex = map(rset -> "#!citerelationset\n" * join(rset, "\n") * "\n", modelleddata)
+        push!(relsets, fromcex(join(modelledcex, "\n"), modelled[modelledurn]))
     end
-    
-    # temp display
-    (directlymapped, modelled)
     relsets
-
 end
 
 

@@ -76,9 +76,9 @@ function fromcex(s::AbstractString, MyDSESet; delimiter = "|")
     srcblocks = blocksfortype("citerelationset", blocks(s))
     records = []
     for b in srcblocks
-        @warn("Block",b)
+        @warn("blocklines",b.lines)   
         for ln in  b.lines[4:end]
-            @warn("line",ln)
+            @warn("fromcex for MyDSESet: line", ln)
             parts = split(ln, delimiter)
             push!(records, MyDSE(CtsUrn(parts[1]), Cite2Urn(parts[2]), Cite2Urn(parts[3])))
         end
@@ -107,3 +107,20 @@ model = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
 tdict2 = Dict(model => MyDSESet)
 lib = library(relationcex, tdict2)
 ```
+
+modelurn = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
+urn:cite2:cite:datamodels.v1:dsemodel
+
+julia> vburn = Cite2Urn("urn:cite2:hmt:dse.v1:msBil8")
+urn:cite2:hmt:dse.v1:msBil8
+
+julia> mixed = Dict(modelurn => MyDSESet, vburn => MyDSESet)
+Dict{Cite2Urn, DataType} with 2 entries:
+  urn:cite2:cite:datamodels.v1:dsemodel => MyDSESet
+  urn:cite2:hmt:dse.v1:msBil8           => MyDSESet
+
+julia> vbdict = Dict(vburn => MyDSESet)
+Dict{Cite2Urn, DataType} with 1 entry:
+  urn:cite2:hmt:dse.v1:msBil8 => MyDSESet
+
+julia> modeldict = Dict(modelurn => MyDSESet)
