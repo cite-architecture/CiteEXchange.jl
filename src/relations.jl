@@ -66,12 +66,14 @@ function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|"
     for k in keys(dmdict)
         coll = k
         collmodel = dmdict[k]
-
-        #@warn("For", coll, collmodel, collmodel in collect(keys(typesdict)))
         for tkey in keys(typesdict)
             if tkey == collmodel
                 modeltype = typesdict[tkey]
-                modelled[coll] = modeltype
+                modelledcollections = filter(rel -> urncontains(coll, rel), relseturns)
+                #@warn("For", coll, collmodel, modeltype, modelledcollections)
+                for c in modelledcollections
+                    modelled[c] = modeltype
+                end 
             end
         end
     end
@@ -81,8 +83,6 @@ function instantiaterelations(cexsrc::AbstractString, typesdict; delimiter = "|"
     for directurn in keys(directlymapped)
         directdata = relationsdataforurn(allblocks, directurn, delimiter = delimiter)
         directcex = map(rset -> "#!citerelationset\n" * join(rset, "\n") * "\n", directdata)
-        #"#!citerelationset\n" * join(directdata, "\n") * "\n"
-
         push!(relsets, fromcex(join(directcex, "\n"), directlymapped[directurn]))
     end
 

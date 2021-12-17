@@ -76,9 +76,9 @@ function fromcex(s::AbstractString, MyDSESet; delimiter = "|")
     srcblocks = blocksfortype("citerelationset", blocks(s))
     records = []
     for b in srcblocks
-        @warn("blocklines",b.lines)   
+        #@warn("blocklines",b.lines)   
         for ln in  b.lines[4:end]
-            @warn("fromcex for MyDSESet: line", ln)
+            #@warn("fromcex for MyDSESet: line", ln)
             parts = split(ln, delimiter)
             push!(records, MyDSE(CtsUrn(parts[1]), Cite2Urn(parts[2]), Cite2Urn(parts[3])))
         end
@@ -92,7 +92,7 @@ end
 
 Now we can build a library by mapping specific DSE relation sets to our new class. Each of the following three examples instantiates
 
-## Containing URN
+## Mapping content with a containing URN
 
 In this example, we map a collection-level URN to our class.  This will get both collections in our CEX, since they are both members of that collection.
 
@@ -104,7 +104,7 @@ tdict1 = Dict(hmtdse => MyDSESet)
 lib1 = library(relationcex, tdict1)
 ```
 
-## Data model
+## Mapping content with a data model
 
 This time, we map a data model for DSE relation sets to our new class. This mapping will be applied to all relation sets that the source CEX defines as implementing the mapped models.
 
@@ -115,7 +115,7 @@ lib2 = library(relationcex, tdict2)
 ```
 
 
-## Mixed dictionary
+## Mapping content with a mixed dictionary
 
 
 ```@example library
@@ -124,7 +124,7 @@ tdict3 = Dict(vburn => MyDSESet, modelurn => MyDSESet)
 lib3 = library(relationcex, tdict3)
 ```
 
-## Include only some relations
+## Including only some relations
 
 
 
