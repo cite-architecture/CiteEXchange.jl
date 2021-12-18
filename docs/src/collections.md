@@ -116,3 +116,12 @@ signcollection = Cite2Urn("urn:cite2:hmt:va_signs:")
 tdict1 = Dict(signcollection => TerribleTuples)
 lib1 = library(collectioncex, tdict1)
 ```
+
+
+
+
+```@example library
+annotationmodel = Cite2Urn("urn:cite2:demo:datamodels.v1:annotationmodel")
+tdict2 = Dict(annotationmodel => TerribleTuples)
+lib2 = library(collectioncex, tdict2)
+```

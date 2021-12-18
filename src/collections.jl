@@ -39,6 +39,16 @@ function propertydataforurn(citeblocks::Vector{Block}, u::Cite2Urn; delimiter = 
     filter(v -> ! isempty(v), blocksdata)
 end
 
+
+"""Instantiate CITE collections from CEX source.
+$(SIGNATURES)
+Keys in `typesdict` may be either of:
+
+1. a `Cite2Urn` identifying collection (possibly by URN containment)
+2. a `Cite2Urn` identifying a datamodel defined in `cexsrc`
+
+These keys should point to a Julia type implementing the `CitableLibraryTrait` (including the `fromcex` function).
+"""
 function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
     if strict
         @warn("instantiaterelations: strict parsing not yet implemented")
@@ -56,6 +66,24 @@ function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "
         end
     end
 
+    # get urns for sets following a data model
+    modelled = Dict()
+    dmdict = modelleddict(allblocks, delimiter = delimiter)
+    for k in keys(dmdict)
+        coll = k
+        collmodel = dmdict[k]
+        for tkey in keys(typesdict)
+            if tkey == collmodel
+                modeltype = typesdict[tkey]
+                modelledcollections = filter(rel -> urncontains(coll, rel), relseturns)
+                #@warn("For", coll, collmodel, modeltype, modelledcollections)
+                for c in modelledcollections
+                    modelled[c] = modeltype
+                end 
+            end
+        end
+    end
+
 
     instantiated = []
     for directurn in keys(directlymapped)
@@ -66,8 +94,17 @@ function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "
         propscex =  "#!citeproperties\n" * join(propsdata, "\n") * "\n"
         push!(instantiated, fromcex(join([directcex, propscex], "\n\n"), directlymapped[directurn]))
     end
+
+    diffurns = setdiff(keys(modelled), keys(directlymapped))
+    @warn("DIFF URNS", diffurns, modelled, directlymapped, instantiated)
+
+    for modelledurn in setdiff(keys(modelled), keys(directlymapped))
+        modelleddata = collectionsdataforurn(allblocks, modelledurn, delimiter = delimiter)
+        modelledcex = "#!citedata\n" * join(modelleddata, "\n") * "\n"
+        push!(instantiated, fromcex(modelledcex, modelled[modelledurn]))
+    end
+
     instantiated
-    #citecolls = []
 end
 
 
