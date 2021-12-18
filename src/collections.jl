@@ -16,9 +16,12 @@ function laxcollections(blocklist::Vector{Block}; delimiter = "|")::Vector{Cite2
     # Collect unique URNs for citedata blocks
     datablocks = blocksfortype("citedata", blocklist)
     push!(collectionurns, lazycite2urns(datablocks, delimiter = delimiter))
+
     # Collect unique URNs for citeproperty blocks
     propertyblocks = blocksfortype("citeproperties", blocklist)
-    push!(collectionurns, lazycite2urns(propertyblocks, delimiter = delimiter))
+    propertyurns = lazycite2urns(propertyblocks, delimiter = delimiter)
+    push!(collectionurns, map(p -> dropproperty(p), propertyurns))
+
     # Collect unique URNs for citecollection blocks
     catalogblocks = blocksfortype("citecollections", blocklist)
     push!(collectionurns, lazycite2urns(catalogblocks, delimiter = delimiter))
