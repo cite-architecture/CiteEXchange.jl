@@ -1,8 +1,73 @@
 
+function collectionsdataforurn(citeblocks::Vector{Block}, u::Cite2Urn; delimiter = "|", strict = true)
+    allblocks = blocksfortype("citedata", citeblocks)
+    if strict
+        @warn("collectionsdataforurn: strict parsing not yet implemented")
+    end
+    # This is all lazy:
+    blocksdata = []
+    for blk in allblocks
+        for ln in blk.lines[2:end]
+            fields = split(ln, delimiter)
+            ln_urn = Cite2Urn(fields[1])
+            if urncontains(u, ln_urn)
+                push!(blocksdata, ln)
+            end
+        end
+    end
+    filter(v -> ! isempty(v), blocksdata)
+end
+
+
+
+function propertydataforurn(citeblocks::Vector{Block}, u::Cite2Urn; delimiter = "|", strict = true)
+    allblocks = blocksfortype("citeproperties", citeblocks)
+    if strict
+        @warn("propertydataforurn: strict parsing not yet implemented")
+    end
+    # This is all lazy:
+    blocksdata = []
+    for blk in allblocks
+        for ln in blk.lines[2:end]
+            fields = split(ln, delimiter)
+            ln_urn = Cite2Urn(fields[1])
+            if urncontains(u, ln_urn)
+                push!(blocksdata, ln)
+            end
+        end
+    end
+    filter(v -> ! isempty(v), blocksdata)
+end
 
 function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
-    #    collectionurns = collections(citeblocks, delimiter = delimiter, strict = false)
-    citecolls = []
+    if strict
+        @warn("instantiaterelations: strict parsing not yet implemented")
+    end
+    allblocks = blocks(cexsrc)
+    #relseturns = relationsets(allblocks, delimiter = delimiter)
+    collectionurns = collections(allblocks, delimiter = delimiter, strict = false)
+    
+    directlymapped = Dict()
+    for seturn in collectionurns
+        for k in keys(typesdict)
+            if (k isa Cite2Urn) && urncontains(k, seturn)
+                directlymapped[seturn] = typesdict[k]
+            end
+        end
+    end
+
+
+    instantiated = []
+    for directurn in keys(directlymapped)
+        directdata = collectionsdataforurn(allblocks, directurn, delimiter = delimiter)
+        directcex = "#!citedata\n" * join(directdata, "\n") * "\n"
+        
+        propsdata = propertydataforurn(allblocks, directurn, delimiter = delimiter)
+        propscex =  "#!citeproperties\n" * join(propsdata, "\n") * "\n"
+        push!(instantiated, fromcex(join([directcex, propscex], "\n\n"), directlymapped[directurn]))
+    end
+    instantiated
+    #citecolls = []
 end
 
 

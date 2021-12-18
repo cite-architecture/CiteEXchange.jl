@@ -100,3 +100,19 @@ function fromcex(s::AbstractString, TerribleTuples; delimiter = "|")
 end
 
 ```
+
+
+
+## Build from CEX source
+
+Now we can build a library by mapping specific CITE collections to our new class. 
+
+## Mapping content with a containing URN
+
+In this example, we map a collection-level URN to our type. 
+
+```@example library
+signcollection = Cite2Urn("urn:cite2:hmt:va_signs:")
+tdict1 = Dict(signcollection => TerribleTuples)
+lib1 = library(collectioncex, tdict1)
+```
