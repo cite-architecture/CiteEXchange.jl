@@ -15,12 +15,15 @@ function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
     end
 
     citecolls = instantiatecollections(cexsrc, typesdict, delimiter = delimiter, strict = false)
+    #collected = []
     if ! isempty(citecolls)
-        push!(citables, citecolls)
+        push!(citables, Iterators.flatten(citecolls) |> collect)
     end
-
     # Flatten the citables list:
-    citables |> Iterators.flatten |> collect |> citeLibrary
+    finalcollectables = citables |> Iterators.flatten |> collect
+    aslib = finalcollectables |> citeLibrary
+    #@warn("Final lax lib/from", aslib, citables)
+    aslib
 end
 
 """Construct a `CiteLibrary` from CEX source string and 
@@ -28,10 +31,16 @@ a dictionary mapping content to Julia types.
 $(SIGNATURES)
 """
 function library(cexsrc::AbstractString, typesdict; delimiter = "|", strict = true)
+    #@warn("library: ", strict, typesdict)
     if strict
-        @warn("Strict parsing not yet implemented.")
-        laxlibrary(cexsrc, typesdict, delimiter = delimiter)
+        @warn("library: strict parsing not yet implemented.")
+        strictly = laxlibrary(cexsrc, typesdict, delimiter = delimiter)
+        #@warn("result: ", strictly)
+        strictly
     else
-        laxlibrary(cexsrc, typesdict, delimiter = delimiter)
+        #@warn("Going lax")
+        lazily = laxlibrary(cexsrc, typesdict, delimiter = delimiter)
+        #@warn("result: ", lazily)
+        lazily
     end
 end

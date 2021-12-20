@@ -23,21 +23,18 @@ urn:cite2:hmt:va_signs.v1:cs0|diple on Iliad 1.2|urn:cts:greekLit:tlg0012.tlg001
 """
 ```
 
-Required Julia packages:
 
-```@example library
-using CiteEXchange
-using CitableLibrary
-```
 
 # Building a library from CEX using customized CITE collections
 
 
-Two options:
+There are two ways to map a CITE collection to a Julia type:
 
-1. map a datamodel
-2. map a specific collection
 
+1. directly map a collection by its URN (possibly using URN containment)
+1. map the datamodel defined for the collection in the source CEX data
+
+Use the required libraries:
 
 ```@example library
 using CiteEXchange
@@ -114,11 +111,11 @@ In this example, we map a collection-level URN to our type.
 ```@example library
 signcollection = Cite2Urn("urn:cite2:hmt:va_signs:")
 tdict1 = Dict(signcollection => TerribleTuples)
-lib1 = library(collectioncex, tdict1)
+lib1 = library(collectioncex, tdict1, strict = false)
 ```
 
 
-
+Since the one collection in this sample is mapped to a data model, we can create a library with equivalent contents using the library as the key to the Julia type.
 
 ```@example library
 annotationmodel = Cite2Urn("urn:cite2:demo:datamodels.v1:annotationmodel")

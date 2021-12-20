@@ -51,10 +51,9 @@ These keys should point to a Julia type implementing the `CitableLibraryTrait` (
 """
 function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "|", strict = false)
     if strict
-        @warn("instantiaterelations: strict parsing not yet implemented")
+        @warn("instantiatecollections: strict parsing not yet implemented")
     end
     allblocks = blocks(cexsrc)
-    #relseturns = relationsets(allblocks, delimiter = delimiter)
     collectionurns = collections(allblocks, delimiter = delimiter, strict = false)
     
     directlymapped = Dict()
@@ -73,37 +72,46 @@ function instantiatecollections(cexsrc::AbstractString, typesdict; delimiter = "
         coll = k
         collmodel = dmdict[k]
         for tkey in keys(typesdict)
-            if tkey == collmodel
+            if urncontains(tkey, collmodel)
                 modeltype = typesdict[tkey]
-                modelledcollections = filter(rel -> urncontains(coll, rel), relseturns)
+                modelledcollections = filter(rel -> urncontains(coll, rel), collectionurns)
                 #@warn("For", coll, collmodel, modeltype, modelledcollections)
                 for c in modelledcollections
+                    # Need collections for model!
+                    # urn:cite2:hmt:va_signs.v1
                     modelled[c] = modeltype
                 end 
             end
         end
     end
+    #@warn("Modelled dict", modelled)
 
 
     instantiated = []
     for directurn in keys(directlymapped)
-        directdata = collectionsdataforurn(allblocks, directurn, delimiter = delimiter)
+        directdata = collectionsdataforurn(allblocks, directurn, delimiter = delimiter, strict = strict)
         directcex = "#!citedata\n" * join(directdata, "\n") * "\n"
         
-        propsdata = propertydataforurn(allblocks, directurn, delimiter = delimiter)
+        propsdata = propertydataforurn(allblocks, directurn, delimiter = delimiter, strict = strict)
         propscex =  "#!citeproperties\n" * join(propsdata, "\n") * "\n"
         push!(instantiated, fromcex(join([directcex, propscex], "\n\n"), directlymapped[directurn]))
     end
 
     diffurns = setdiff(keys(modelled), keys(directlymapped))
-    @warn("DIFF URNS", diffurns, modelled, directlymapped, instantiated)
+    #@warn("instantiatecollections: diff to get modelled URNS" , diffurns, modelled, directlymapped, instantiated)
 
     for modelledurn in setdiff(keys(modelled), keys(directlymapped))
-        modelleddata = collectionsdataforurn(allblocks, modelledurn, delimiter = delimiter)
-        modelledcex = "#!citedata\n" * join(modelleddata, "\n") * "\n"
-        push!(instantiated, fromcex(modelledcex, modelled[modelledurn]))
-    end
+        modelleddata = collectionsdataforurn(allblocks, modelledurn, delimiter = delimiter, strict = strict)
+        datacex = "#!citedata\n" * join(modelleddata, "\n") * "\n"
 
+        propsdata = propertydataforurn(allblocks, modelledurn, delimiter = delimiter, strict = strict)
+        propscex =  "#!citeproperties\n" * join(propsdata, "\n") * "\n"
+        modelledcoll = modelled[modelledurn]
+        
+        composedcex = join([datacex, propscex], "\n\n")
+        push!(instantiated, fromcex(composedcex,modelledcoll))
+    end
+    #@warn("Instantiated collections", instantiated)
     instantiated
 end
 
@@ -138,7 +146,7 @@ This needs to examine `citecollections`, `citeproperties`, and `citecdata` block
 """
 function collections(blocklist::Vector{Block}; strict = true, delimiter = "|")::Vector{Cite2Urn}
     if strict
-        @warn("Strict parsing not yet implemented")
+        @warn("collections: strict parsing not yet implemented")
         laxcollections(blocklist, delimiter = delimiter)
     else
         laxcollections(blocklist, delimiter = delimiter)
