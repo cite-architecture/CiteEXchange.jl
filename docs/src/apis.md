@@ -12,7 +12,7 @@ blocks
 blocktypes
 blocksfortype
 datafortype
-relations
+relationsets
 ```
 
 ## Internals
