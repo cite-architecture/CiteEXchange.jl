@@ -4,7 +4,7 @@
 
 Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources.
 
-## Quick example
+## Quick introduction
 
 Plain-text CEX files are composed of one or more blocks defined by a  CEX header line.  
 

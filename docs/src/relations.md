@@ -101,7 +101,7 @@ In this example, we map a collection-level URN to our class.  This will get both
 ```@example library
 hmtdse = Cite2Urn("urn:cite2:hmt:dse.v1:")
 tdict1 = Dict(hmtdse => MyDSESet)
-lib1 = library(relationcex, tdict1)
+lib1 = citelibrary(relationcex, tdict1)
 ```
 
 ## Mapping content with a data model
@@ -111,7 +111,7 @@ This time, we map a data model for DSE relation sets to our new class. This mapp
 ```@example library
 modelurn = Cite2Urn("urn:cite2:cite:datamodels.v1:dsemodel")
 tdict2 = Dict(modelurn => MyDSESet)
-lib2 = library(relationcex, tdict2)
+lib2 = citelibrary(relationcex, tdict2)
 ```
 
 
@@ -121,7 +121,7 @@ lib2 = library(relationcex, tdict2)
 ```@example library
 vburn = Cite2Urn("urn:cite2:hmt:dse.v1:msBil8")
 tdict3 = Dict(vburn => MyDSESet, modelurn => MyDSESet)
-lib3 = library(relationcex, tdict3)
+lib3 = citelibrary(relationcex, tdict3)
 ```
 
 ## Including only some relations
@@ -130,5 +130,5 @@ lib3 = library(relationcex, tdict3)
 
 ```@example library
 tdict4 = Dict(vburn => MyDSESet)
-lib4 = library(relationcex, tdict4)
+lib4 = citelibrary(relationcex, tdict4)
 ```

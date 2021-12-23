@@ -1,7 +1,7 @@
 name = "CiteEXchange"
 uuid = "e2e9ead3-1b6c-4e96-b95f-43e6ab899178"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.5.1"
+version = "0.6.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -16,8 +16,8 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 CSV = "0.9"
-CitableBase = "6"
-CitableLibrary = "0.3"
+CitableBase = "7"
+CitableLibrary = "0.4"
 CitableObject = "0.9"
 CitableText = "0.12"
 DocStringExtensions = "0.8"

@@ -111,7 +111,7 @@ In this example, we map a collection-level URN to our type.
 ```@example library
 signcollection = Cite2Urn("urn:cite2:hmt:va_signs:")
 tdict1 = Dict(signcollection => TerribleTuples)
-lib1 = library(collectioncex, tdict1, strict = false)
+lib1 = citelibrary(collectioncex, tdict1, strict = false)
 ```
 
 
@@ -120,5 +120,5 @@ Since the one collection in this sample is mapped to a data model, we can create
 ```@example library
 annotationmodel = Cite2Urn("urn:cite2:demo:datamodels.v1:annotationmodel")
 tdict2 = Dict(annotationmodel => TerribleTuples)
-lib2 = library(collectioncex, tdict2)
+lib2 = citelibrary(collectioncex, tdict2)
 ```

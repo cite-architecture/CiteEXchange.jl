@@ -21,7 +21,7 @@ function laxlibrary(cexsrc::AbstractString, typesdict; delimiter = "|")
     end
     # Flatten the citables list:
     finalcollectables = citables |> Iterators.flatten |> collect
-    aslib = finalcollectables |> citeLibrary
+    aslib = finalcollectables |> library
     #@warn("Final lax lib/from", aslib, citables)
     aslib
 end
@@ -30,7 +30,7 @@ end
 a dictionary mapping content to Julia types.
 $(SIGNATURES)
 """
-function library(cexsrc::AbstractString, typesdict; delimiter = "|", strict = true)
+function citelibrary(cexsrc::AbstractString, typesdict; delimiter = "|", strict = true)
     #@warn("library: ", strict, typesdict)
     if strict
         @warn("library: strict parsing not yet implemented.")
