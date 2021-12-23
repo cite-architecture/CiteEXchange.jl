@@ -1,18 +1,23 @@
+```@setup simple
+root = pwd() |> dirname |> dirname
+f = joinpath(root, "test", "assets", "burneyex.cex")
+```
+
+
 # CiteEXchange
 
 *Parse strings and files in CEX format.*
 
 Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources.
 
-## Quick example
+## Quick introduction
 
-Plain-text CEX files are composed of one or more blocks defined by a  CEX header line.  
+Plain-text CEX files are composed of one or more blocks defined by a  CEX header line.  Reading a CEX file with the `fromfile` function creates an array of `Block`s, each of which has a label identifying the block type, and a series of data lines. This example reads a file with `ctscatalog` and `ctsdata` blocks.
 
-Reading a CEX file creates an array of `Block`s, each of which has a label identifying the block type, and a series of data lines. This example reads a file with `ctscatalog` and `ctsdata` blocks.
+!!! note
 
-```@setup simple
-f = string(pwd() |> dirname, "/data/burneyex.cex")
-```
+    The file `f` in the example below is `test/assets/burneyex.cex` in this github repository.
+
 ```@example simple
 using CiteEXchange
 blocklist = CiteEXchange.fromfile(f)
@@ -35,7 +40,7 @@ blocklist[1].lines
 
 ### Work with an array of `Block`s
 
-CiteEXchange also has functions that work with arrays of `Block`s.  You can see what types of blocks are present.
+`CiteEXchange` also has functions that work with arrays of `Block`s.  You can see what types of blocks are present.
 
 ```@example simple
 blocktypes(blocklist)
