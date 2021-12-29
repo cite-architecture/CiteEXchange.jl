@@ -65,29 +65,6 @@ function blocktype(s::AbstractString)::Union{AbstractString, Nothing}
     end
 end
 
-"""Parse a string into an Array of `Block`s.
-
-$(SIGNATURES)
-"""
-function blocks(s::AbstractString)::Vector{Block}
-    blockgroup = Block[]
-    blocks = split(s, "#!")
-    for block in blocks
-        lines = split(block, "\n")
-        tidy = map(ln -> strip(ln), lines) 
-        cutcomments = filter(ln -> ! startswith(ln, "//") , tidy)
-        nonempty = filter(ln -> ! isempty(ln), cutcomments)
-        if isempty(nonempty)
-        else
-            categorized = blocktype(lines[1])
-            if isnothing(categorized)
-            else
-                push!(blockgroup, Block(categorized, nonempty[2:end]))
-            end
-        end
-    end
-    blockgroup
-end
 
 """Find CEX version for a block group.
 

@@ -12,7 +12,6 @@ blocks
 blocktypes
 blocksfortype
 datafortype
-relationsets
 ```
 
 ## Internals

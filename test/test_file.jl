@@ -1,7 +1,7 @@
 
 @testset "Test reading from file" begin
     f = "assets/collectionblocks.cex"
-    blockgroup = CiteEXchange.fromfile(f)
+    blockgroup = CiteEXchange.blocks(f, FileReader)
     @test length(blockgroup) == 3
     @test isa(blockgroup, Vector{CiteEXchange.Block})
     
@@ -9,7 +9,7 @@ end
 
 @testset "Test reading data for block" begin
     f = "assets/relationblocks.cex"
-    blockgroup = CiteEXchange.fromfile(f)
+    blockgroup = CiteEXchange.blocks(f, FileReader)
     @test length(blockgroup) == 4
     
     rawrelset = relationsdata(blockgroup, Cite2Urn("urn:cite2:hmt:dse.v1:msBil8"))
