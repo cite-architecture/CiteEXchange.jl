@@ -95,7 +95,7 @@ end
 
 @testset "Test CTS data block without header" begin
     f = "assets/textblocks.cex"
-    blks = CiteEXchange.fromfile(f)
+    blks = CiteEXchange.blocks(f, FileReader)
     datalines = datafortype("ctsdata", blks)
     @test length(datalines) == 4
 end

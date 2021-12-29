@@ -12,7 +12,14 @@ Cite EXchange format (CEX) is a plain-text format for serializing citable schola
 
 ## Quick introduction
 
-Plain-text CEX files are composed of one or more blocks defined by a  CEX header line.  Reading a CEX file with the `fromfile` function creates an array of `Block`s, each of which has a label identifying the block type, and a series of data lines. This example reads a file with `ctscatalog` and `ctsdata` blocks.
+The plain-text CEX format organizes data in one or more blocks defined by a  CEX header line.  
+Reading CEX source data with the `blocks` function creates an array of `Block`s, each of which has a label identifying the block type, followed by a series of data lines.  (Empty or whitespace-only lines are ignored.)  You can use `blocks`:
+
+- with a single argument to parse a string of CEX data
+- with a file name and a second parameter `FileReader` to parse CEX data from a file
+- with a URL string and a second parameter `UrlReader` to parse CEX retrieved from a URL
+
+This example reads a file with two blocks,  `ctscatalog` and `ctsdata` block.
 
 !!! note
 
@@ -20,7 +27,7 @@ Plain-text CEX files are composed of one or more blocks defined by a  CEX header
 
 ```@example simple
 using CiteEXchange
-blocklist = CiteEXchange.fromfile(f)
+blocklist = CiteEXchange.blocks(f, FileReader)
 blocklist |> length
 ```
 
