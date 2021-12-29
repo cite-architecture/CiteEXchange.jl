@@ -34,7 +34,7 @@ function blocks(s::AbstractString)::Vector{Block}
     blockgroup
 end
 
-"""Parse a string into an Array of `Block`s.
+"""Parse string `s` into an Array of `Block`s.
 
 $(SIGNATURES)
 """
@@ -44,21 +44,21 @@ end
 
 
 
-"""Parse a file of CEX data into a group of `Block`s.
+"""Parse CEX data from file `fname` into a group of `Block`s.
 
 $(SIGNATURES)
 """
-function blocks(fname::AbstractString, ::Type{FileReader})::Vector{Block}
+function blocks(fname::AbstractString, freader::Type{FileReader})::Vector{Block}
     cex =  open(f->read(f, String), fname)
     blocks(cex)
 end
 
 
-"""Parse CEX data from a URL into a group of `Block`s.
+"""Parse CEX data from `url` into a group of `Block`s.
 
 $(SIGNATURES)
 """
-function blocks(url, ::Type{UrlReader})::Vector{Block}
+function blocks(url, ureader::Type{UrlReader})::Vector{Block}
     data = HTTP.get(url).body |> String
     blocks(data)
 end
