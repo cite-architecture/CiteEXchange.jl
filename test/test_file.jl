@@ -25,7 +25,7 @@ end
 
 @testset "Test reading from URL" begin
     url = "https://raw.githubusercontent.com/homermultitext/hmt-archive/master/archive/codices/vapages.cex"
-    blockgroup = CiteEXchange.fromurl(url)
+    blockgroup = CiteEXchange.blocks(url, UrlReader)
     @test length(blockgroup) == 4
 end
 

@@ -9,5 +9,7 @@ urn:cts:citedemo:gburg.bancroft.v1:4|It is rather for us to be here dedicated to
 cexfile = "assets/textblocks.cex"
 cexurl = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/textblocks.cex"
 
-
+    @test blocks(cexfile, FileReader) == blocks(cexurl, UrlReader)
+    @test blocks(cexstring) == blocks(cexstring, StringReader)
+    @test blocks(cexstring) == blocks(cexfile, FileReader)
 end

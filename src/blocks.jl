@@ -5,7 +5,15 @@ struct Block
 end
 
 
-"""Serialized `b` in CEX format.
+"""Override `==` for `Block`.
+
+$(SIGNATURES)
+"""
+function ==(b1::Block, b2::Block)
+    b1.label == b2.label && b1.lines == b2.lines
+end
+
+"""Serialize `b` to CEX format.
 $(SIGNATURES)
 """
 function blocktocex(b::Block)

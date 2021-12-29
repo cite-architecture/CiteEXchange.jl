@@ -4,12 +4,13 @@ module CiteEXchange
 using  Documenter, DocStringExtensions
 using HTTP
 
+import Base.==
+
 using CitableBase, CitableObject
 
 include("blocks.jl")
 include("reader.jl")
 include("relations.jl")
-
 
 export cexversion 
 
