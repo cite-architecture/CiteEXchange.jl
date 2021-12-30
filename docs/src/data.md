@@ -53,16 +53,16 @@ It always returns a (possibly empty) Vector of string values representing CEX da
 
 ## Select data lines from CEX sources
 
-Use the same syntax as for `blocks` to extract data lines from given type of CEX block
+Use the same syntax as for `blocks` to extract data lines from given type of CEX block.  In this example, 
 
 ```@example data
 url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
 str = read(f, String)
 
-lines1 = data(f, CiteEXchange.FileReader, "ctscatalog")
-lines2 = data(url, CiteEXchange.UrlReader, "ctscatalog")
-lines3 = data(str, CiteEXchange.StringReader, "ctscatalog")
-lines4 = data(str, "ctscatalog")
+lines1 = data(f, CiteEXchange.FileReader, "ctsdata")
+lines2 = data(url, CiteEXchange.UrlReader, "ctsdata")
+lines3 = data(str, CiteEXchange.StringReader, "ctsdata")
+lines4 = data(str, "ctsdata")
 ```
 ```@example data
 lines1 == lines2 == lines3 == lines4
@@ -74,7 +74,7 @@ You can directly supply a list of blocks instead of a CEX source.
 
 ```@example data
 blockgroup = blocks(str)
-blocklines = data(blockgroup, "ctscatalog")
+blocklines = data(blockgroup, "ctsdata")
 ```
 
 ```@example data
@@ -87,15 +87,13 @@ The `data` function optionally accepts a third parameter with a URN value to fil
 
 !!! note "Realistic URN types"
 
-    The `UnstructuredUrn` is used solely for the purposes of a brief test of the `CiteEXchange` package.  In our experience, we can cover all needs for scholarly citation with tither the `CtsUrn` type of [the `CitableText` package](https://cite-architecture.github.io/CitableText.jl/stable/), or the `Cite2Urn` of [the `CitableObject` package](https://github.com/cite-architecture/CitableObject.jl).
+    The `UnstructuredUrn` is used solely for the purposes of testing the `CiteEXchange` package.  In our experience, we can cover all needs for scholarly citation with either the `CtsUrn` type of [the `CitableText` package](https://cite-architecture.github.io/CitableText.jl/stable/), or the `Cite2Urn` of [the `CitableObject` package](https://github.com/cite-architecture/CitableObject.jl).
 
-```@example data
-UnstructuredUrn
-```
+
 
 
 ```@example data
 urn = UnstructuredUrn("urn:cts:citedemo:gburg")
 blks = blocks(f, CiteEXchange.FileReader)
-gburgdata = data(blks, "ctsdata", urn)
+textdata = data(blks, "ctsdata")
 ``` 
