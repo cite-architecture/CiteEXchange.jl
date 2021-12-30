@@ -9,10 +9,13 @@ f = joinpath(root, "test", "assets", "burneyex.cex")
 *Parse data in the delimited-text CEX format.*
 
 
+Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources. CEX organizes data in one or more blocks defined by a CEX header line.  Using the `CiteEXchange` package, you can work with data from CEX sources as labelled `Block`s with associated lines of metadata and data, can extract data contents by CEX block type, and can filter contents by URN.
+
+
+
 ## Quick introduction
 
-Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources. CEX organizes data in one or more blocks defined by a CEX header line.  You can use the `blocks` function to read source data into a Vector of `Block` objects.  
-This example reads a file with two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
+You can use the `blocks` function to read source data into a Vector of `Block` objects.  This example reads a file with two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
 
 
 ```@example simple
