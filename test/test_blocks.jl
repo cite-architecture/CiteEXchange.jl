@@ -9,3 +9,33 @@
     @test CiteEXchange.blocktocex(dupecatalog)== expectedcex
 end
 
+
+@testset "Test filtering blocks by type" begin
+    blockgroup = blocks(joinpath("assets", "burneyex.cex"), CiteEXchange.FileReader)
+    catalogs = blocks(blockgroup, "ctscatalog")
+    @test length(catalogs) == 1
+end
+
+@testset "Test reading Blocks from different types of sources" begin
+    f = joinpath("assets", "burneyex.cex")
+    url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
+    str = read(f, String)
+
+    read1 = blocks(f, CiteEXchange.FileReader)
+    read2 = blocks(url, CiteEXchange.UrlReader)
+    read3 = blocks(str)
+    
+    @test read1 == read2
+    @test read1 == read3
+end
+
+
+@testset "Test filtering blocks by type when reading from different resources" begin
+    f = joinpath("assets", "burneyex.cex")
+    url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
+    str = read(f, String)
+
+    read1 = blocks(f, CiteEXchange.FileReader, "ctscatalog")
+    read2 = blocks(url, CiteEXchange.UrlReader, "ctscatalog")
+    read3 = blocks(str, "ctscatalog")
+end
