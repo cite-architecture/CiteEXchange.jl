@@ -1,9 +1,9 @@
 
-"""Find data lines for all blocks of a given type in a blockgroup.
+"""Find data lines for all blocks of type `blocktype` in a Vector of `Block`s.
 
 $(SIGNATURES)
 """
-function data(blockgroup::Vector{Block}, blocktype::AbstractString)
+function data(blockgroup::Vector{Block}, blocktype::AbstractString; delimiter = "|")
     blks = blocks(blockgroup, blocktype) 
 
     # relationsets have a special multiline header:
@@ -20,8 +20,8 @@ end
 
 $(SIGNATURES)
 """
-function data(s::AbstractString, blocktype::AbstractString)
-    data(blocks(s), blocktype)
+function data(s::AbstractString, blocktype::AbstractString; delimiter = "|")
+    data(blocks(s), blocktype, delimiter = delimiter)
 end
 
 
@@ -29,8 +29,8 @@ end
 
 $(SIGNATURES)
 """
-function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::AbstractString)
-    data(blocks(src, T), blocktype)
+function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::AbstractString; delimiter = "|")
+    data(blocks(src, T), blocktype, delimiter = delimiter)
 end
 
 
