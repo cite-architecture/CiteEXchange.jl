@@ -46,18 +46,48 @@ f = joinpath(root, "test", "assets", "laxlibrary1.cex")
 
 The `data` function can:
 
-- select data lines from a list of `Block`s for a specified block type
+- select data lines for a specified block type from a CEX source or from a list of `Block`s 
 - optionally filter data by a URN value
 
 It always returns a (possibly empty) Vector of string values representing CEX data lines.
 
+## Select data lines from CEX sources
 
+Use the same syntax as for `blocks` to extract data lines from given type of CEX block
 
+```@example data
+url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
+str = read(f, String)
 
+lines1 = data(f, CiteEXchange.FileReader, "ctscatalog")
+lines2 = data(url, CiteEXchange.UrlReader, "ctscatalog")
+lines3 = data(str, CiteEXchange.StringReader, "ctscatalog")
+lines4 = data(str, "ctscatalog")
+```
+```@example data
+lines1 == lines2 == lines3 == lines4
+```
 
-## Filter by URN
+## Select data lines from a list of `Block`s
 
-Here's the type we're using:
+You can directly supply a list of blocks instead of a CEX source.
+
+```@example data
+blockgroup = blocks(str)
+blocklines = data(blockgroup, "ctscatalog")
+```
+
+```@example data
+blocklines == lines3
+```
+
+## Filter data lines by URN
+
+The `data` function optionally accepts a third parameter with a URN value to filter on by URN containment.  The background setup for this page has defined a subtype of `Urn` called `UnstructuredUrn` that accepts any kind of URN string, and has implemented the `UrnComparisonTrait` for the type, so we can use `UnstructuredUrn` values to filter the data from blocks in our source.
+
+!!! note "Realistic URN types"
+
+    The `UnstructuredUrn` is used solely for the purposes of a brief test of the `CiteEXchange` package.  In our experience, we can cover all needs for scholarly citation with tither the `CtsUrn` type of [the `CitableText` package](https://cite-architecture.github.io/CitableText.jl/stable/), or the `Cite2Urn` of [the `CitableObject` package](https://github.com/cite-architecture/CitableObject.jl).
 
 ```@example data
 UnstructuredUrn
