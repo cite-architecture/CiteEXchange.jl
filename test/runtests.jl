@@ -1,5 +1,4 @@
 using CiteEXchange
-using CitableObject
 using Test
 
 include("test_blocks.jl")

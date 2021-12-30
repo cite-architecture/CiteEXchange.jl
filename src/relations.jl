@@ -3,7 +3,7 @@
 
 $(SIGNATURES)
 """
-function relationsdata(blocklist, coll::Cite2Urn)
+function relationsdata(blocklist, coll::U) where {U <: Urn}
     relationblocks = filter(b -> b.label == "citerelationset", blocklist)
     relationlines = []
     for blk in relationblocks

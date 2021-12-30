@@ -6,7 +6,7 @@ using HTTP
 
 import Base.==
 
-using CitableBase, CitableObject
+using CitableBase
 
 include("blocks.jl")
 include("reader.jl")
