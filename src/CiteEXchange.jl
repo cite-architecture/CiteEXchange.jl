@@ -11,9 +11,9 @@ using CitableBase
 include("blockstype.jl")
 include("blocks.jl")
 include("data.jl")
-include("relations.jl")
 
 
+export Block
 export cexversion 
 export blocktypes
 export blocks

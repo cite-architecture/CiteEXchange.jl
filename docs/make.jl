@@ -22,7 +22,7 @@ makedocs(
     pages = [
         "Overview" => "index.md",
         "The `blocks` function" => "blocks.md",
-        "The `data` function" => "blocks.md",
+        "The `data` function" => "data.md",
 
         "API documentation" => "apis.md"
 

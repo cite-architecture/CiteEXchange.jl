@@ -43,7 +43,7 @@ function blocks(s::AbstractString)::Vector{Block}
     blockgroup
 end
 
-"""Parse string `s` into an Array of `Block`s.
+"""Parse `s` into an Array of `Block`s.
 
 $(SIGNATURES)
 """
@@ -53,7 +53,7 @@ end
 
 
 
-"""Parse CEX data from file `fname` into a group of `Block`s.
+"""Parse CEX data from file `fname` into an Array of `Block`s.
 
 $(SIGNATURES)
 """
@@ -62,7 +62,7 @@ function blocks(fname::AbstractString, freader::Type{FileReader})::Vector{Block}
     blocks(cex)
 end
 
-"""Parse CEX data from `url` into a group of `Block`s.
+"""Parse CEX data from `url` into an Array of `Block`s.
 
 $(SIGNATURES)
 """
@@ -72,7 +72,7 @@ function blocks(url, ureader::Type{UrlReader})::Vector{Block}
 end
 
 
-"""Find blocks of a given type in a CEX source.
+"""Parse `cexsrc` and find blocks of type `blocktype`.
 
 $(SIGNATURES)
 """
@@ -81,7 +81,7 @@ function blocks(cexsrc::AbstractString, blocktype::AbstractString)
 end
 
 
-"""Find blocks of a given type in a CEX source.
+"""Find blocks of type `blocktype` in a CEX source to read with reader `T`.
 
 $(SIGNATURES)
 """

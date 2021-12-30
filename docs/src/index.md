@@ -36,4 +36,12 @@ blocklist[1].lines
 ```
 
 
-The `blocks` function and the `data` function provide a variety of ways to select data.  They are documented on the following pages.
+## In more detail
+
+The `CiteEXchange` package provides two main functions for working with CEX data:
+
+- the `blocks` function parses and filters CEX sources into lists of `Block`s
+- the `data` function parses and filters CEX sources, and extracts only the data lines from the resulting `Block`s
+
+
+They are documented on the following pages.
