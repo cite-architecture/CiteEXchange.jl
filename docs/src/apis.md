@@ -1,21 +1,12 @@
 # API documentation
 
-```@meta
-CurrentModule = CiteEXchange
-```
 
-## Exported functions and types
+Exported types and functions:
+
 ```@docs
 Block
+blocktypes
 cexversion
 blocks
-blocktypes
-blocksfortype
-datafortype
-```
-
-## Internals
-
-```@docs
-blocktype
+data
 ```

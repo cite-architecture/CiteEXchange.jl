@@ -23,10 +23,12 @@ end
 
     read1 = blocks(f, CiteEXchange.FileReader)
     read2 = blocks(url, CiteEXchange.UrlReader)
-    read3 = blocks(str)
+    read3 = blocks(str, CiteEXchange.StringReader)
+    read4 = blocks(str)
     
     @test read1 == read2
     @test read1 == read3
+    @test read1 == read4
 end
 
 
@@ -37,5 +39,10 @@ end
 
     read1 = blocks(f, CiteEXchange.FileReader, "ctscatalog")
     read2 = blocks(url, CiteEXchange.UrlReader, "ctscatalog")
-    read3 = blocks(str, "ctscatalog")
+    read3 = blocks(str, CiteEXchange.StringReader, "ctscatalog")
+    read4 = blocks(str, "ctscatalog")
+
+    @test read1 == read2
+    @test read1 == read3
+    @test read1 == read4
 end
