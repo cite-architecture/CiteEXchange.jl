@@ -53,10 +53,11 @@ It always returns a (possibly empty) Vector of string values representing CEX da
 
 ## Select data lines from CEX sources
 
-Use the same syntax as for `blocks` to extract data lines from given type of CEX block.  In this example, 
+In this example, we work with a CEX source that has several different kinds of CEX blocks, and two `ctsdata` blocks with passages from two different texts.  We can collect all of the text datalines using the same syntax as for the `blocks` function.
+ 
 
 ```@example data
-url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
+url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/dev/test/assets/laxlibrary1.cex"
 str = read(f, String)
 
 lines1 = data(f, CiteEXchange.FileReader, "ctsdata")
@@ -70,7 +71,7 @@ lines1 == lines2 == lines3 == lines4
 
 ## Select data lines from a list of `Block`s
 
-You can directly supply a list of blocks instead of a CEX source.
+You can also directly supply a list of blocks instead of a CEX source.
 
 ```@example data
 blockgroup = blocks(str)
@@ -90,10 +91,10 @@ The `data` function optionally accepts a third parameter with a URN value to fil
     The `UnstructuredUrn` is used solely for the purposes of testing the `CiteEXchange` package.  In our experience, we can cover all needs for scholarly citation with either the `CtsUrn` type of [the `CitableText` package](https://cite-architecture.github.io/CitableText.jl/stable/), or the `Cite2Urn` of [the `CitableObject` package](https://github.com/cite-architecture/CitableObject.jl).
 
 
-
+When we collected all the `ctsdata` lines, we got five passages from two different texts.  Now we'll filter the request to get data from a single text.
 
 ```@example data
 urn = UnstructuredUrn("urn:cts:citedemo:gburg")
 blks = blocks(f, CiteEXchange.FileReader)
-textdata = data(blks, "ctsdata")
+textdata = data(blks, "ctsdata", urn)
 ``` 
