@@ -21,7 +21,7 @@ makedocs(
     sitename = "CiteEXchange",
     pages = [
         "Overview" => "index.md",
-        
+        "Collections" => "collections.md",
 
         "API documentation" => "apis.md"
     ]
