@@ -107,6 +107,20 @@ When we collected all the `ctsdata` lines, we got five passages from two differe
 
 ```@example data
 urn = UnstructuredUrn("urn:cts:citedemo:gburg")
-blks = blocks(f, CiteEXchange.FileReader)
-textdata = data(blks, "ctsdata", urn)
+textdata = data(str, "ctsdata", urn)
 ``` 
+
+URN filtering can be used with any of the variations of the `data` function, including filtering `Block`s.
+
+```@example data
+blks = blocks(f, CiteEXchange.FileReader)
+textfromblocks = data(blks, "ctsdata", urn)
+``` 
+
+
+Note that when filtering `citerelationset`s by URN value, the filter applies to the URN for an entire relation set, *not* to URNs in individual relations.
+
+```@example data
+relsetfilter = UnstructuredUrn("urn:cite2:hmt:dse.v1:")
+data(str, "citerelationset", relsetfilter)
+```

@@ -14,20 +14,49 @@ and filter by urn containment on `urn`.
 $(SIGNATURES)
 """
 function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|") where {U <: Urn}
-    datalines = data(blockgroup, blocktype)
-    @warn("$(length(datalines)) lines matched")
-    matchinglines = []
-    @warn("Filter on $(urn)")
-    for line in datalines
-        fields = split(line, delimiter)
+    
+
+    if blocktype == "citerelationset"
+        relblocks = blocks(blockgroup, "citerelationset")
+        relationsdata(relblocks, urn)
+    else
+        datalines = data(blockgroup, blocktype)
+        matchinglines = []
+        @info("Filter data on $(urn)")
+        for line in datalines
+            fields = split(line, delimiter)
+            try
+                urnval = U(fields[1])
+                if urncontains(urn, urnval)
+                    push!(matchinglines, line)
+                end
+            catch
+                @warn("Failed testing $(urn) on line $(line) with type $(U)")
+            end
+        end
+        matchinglines
+    end
+end
+
+
+
+"""Extract data from all relation sets where relation belongs to a specified collection.
+
+$(SIGNATURES)
+"""
+function relationsdata(blocklist, coll::U) where {U <: Urn}
+    relationblocks = filter(b -> b.label == "citerelationset", blocklist)
+    relationlines = []
+    for blk in relationblocks
+        urnstr = replace(blk.lines[1], "urn|" => "")
         try
-            urnval = U(fields[1])
-            if urncontains(urn, urnval)
-                push!(matchinglines, line)
+            objurn = U(urnstr)
+            if urncontains(coll, objurn)
+                push!(relationlines, blk.lines[4:end])
             end
         catch
-            @warn("Failed testing $(urn) on line $(line) with type $(U)")
+            @warn("Unable to make URN of type $(U) from $(urnstr)")
         end
     end
-    matchinglines
+    relationlines |> Iterators.flatten |> collect
 end
