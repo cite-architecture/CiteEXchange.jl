@@ -5,8 +5,9 @@ $(SIGNATURES)
 function data(blockgroup::Vector{Block}, blocktype::AbstractString; delimiter = "|")
     blks = blocks(blockgroup, blocktype) 
 
+    @warn("Get data for $(blocktype)")
     # relationsets have a special multiline header:
-    if blocktype == "relationset"
+    if blocktype == "citerelationset"
         relationsdata(blks)
     else
         # Other types all have a one-line header
@@ -33,12 +34,6 @@ function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::Abst
 end
 
 
-
-
-
-
-
-
 """Extract data from all relation sets in a list of blocks.
 $(SIGNATURES)
 """
@@ -61,9 +56,13 @@ function relationsdata(blocklist, coll::U) where {U <: Urn}
     relationlines = []
     for blk in relationblocks
         urnstr = replace(blk.lines[1], "urn|" => "")
-        objurn = Cite2Urn(urnstr)
-        if urncontains(coll, objurn)
-            push!(relationlines, blk.lines[3:end])
+        try
+            objurn = U(urnstr)
+            if urncontains(coll, objurn)
+                push!(relationlines, blk.lines[3:end])
+            end
+        catch
+            @warn("Unable to make URN of type $(U) from $(urnstr)")
         end
     end
     relationlines |> Iterators.flatten |> collect

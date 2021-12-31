@@ -69,6 +69,18 @@ lines4 = data(str, "ctsdata")
 lines1 == lines2 == lines3 == lines4
 ```
 
+
+Note in particular that `citerelationset` blocks have three  lines of header information that appear in the `lines` field of a block, but are not included in the output of `data`.
+
+```@example data
+relblocks = blocks(str, "citerelationset")
+relblocks[1].lines
+```
+
+```@example data
+blocks(str, "citerelationset")
+```
+
 ## Select data lines from a list of `Block`s
 
 You can also directly supply a list of blocks instead of a CEX source.
