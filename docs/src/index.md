@@ -6,57 +6,45 @@ f = joinpath(root, "test", "assets", "burneyex.cex")
 
 # CiteEXchange
 
-*Parse strings and files in CEX format.*
+*Parse data in the delimited-text CEX format.*
 
-Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources.
+
+Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources. CEX organizes data in one or more blocks defined by a CEX header line.  Using the `CiteEXchange` package, you can work with data from CEX sources as labelled `Block`s with associated lines of metadata and data, can extract data contents by CEX block type, and can filter contents by URN.
+
+
 
 ## Quick introduction
 
-The plain-text CEX format organizes data in one or more blocks defined by a  CEX header line.  
-Reading CEX source data with the `blocks` function creates an array of `Block`s, each of which has a label identifying the block type, followed by a series of data lines.  (Empty or whitespace-only lines are ignored.)  You can use `blocks`:
+You can use the `blocks` function to read source data into a Vector of `Block` objects.  This example reads a file with two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
 
-- with a single argument to parse a string of CEX data
-- with a file name and a second parameter `FileReader` to parse CEX data from a file
-- with a URL string and a second parameter `UrlReader` to parse CEX retrieved from a URL
 
-This example reads a file with two blocks,  `ctscatalog` and `ctsdata` block.
+```@example simple
+using CiteEXchange
+blocklist = blocks(f, CiteEXchange.FileReader)
+```
 
 !!! note
 
     The file `f` in the example below is `test/assets/burneyex.cex` in this github repository.
 
-```@example simple
-using CiteEXchange
-blocklist = CiteEXchange.blocks(f, FileReader)
-blocklist |> length
+
+Each `Block` has a label and an array of data lines.  You can work directly with the array of blocks:
+
 ```
-
-
-### Work with contents of an individual block 
-
-You can work directly the array of blocks:
-
-```@example simple
 blocklist[1].label
 ```
 
-```@example simple
+```
 blocklist[1].lines
 ```
 
 
-### Work with an array of `Block`s
+## In more detail
 
-`CiteEXchange` also has functions that work with arrays of `Block`s.  You can see what types of blocks are present.
+The `CiteEXchange` package provides two main functions for working with CEX data:
 
-```@example simple
-blocktypes(blocklist)
-```
+- the `blocks` function parses and filters CEX sources into lists of `Block`s
+- the `data` function parses and filters CEX sources, and extracts only the data lines from the resulting `Block`s
 
-You can find all data for a given type of block.
 
-```@example simple
-datafortype("ctscatalog", blocklist)
-```
-
-A typical work pattern might be to read an array of blocks, see what types of block are included, and then use an appropriate module to process blocks depending on their type (e.g., use the `CitableCorpus` module to read a `ctsdata` or `ctscatalog` block).
+They are documented on the following pages.

@@ -6,18 +6,18 @@ using HTTP
 
 import Base.==
 
-using CitableBase, CitableObject
+using CitableBase
 
+include("blockstype.jl")
 include("blocks.jl")
-include("reader.jl")
-include("relations.jl")
+include("data.jl")
+include("urnfilters.jl")
 
+
+export Block
 export cexversion 
-
-export FileReader, UrlReader, StringReader
-# Blocks and raw data
-export blocks, blocktypes, blocksfortype
-export datafortype, relationsdata
-
+export blocktypes
+export blocks
+export data
 
 end # module
