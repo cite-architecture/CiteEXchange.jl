@@ -14,8 +14,6 @@ and filter by urn containment on `urn`.
 $(SIGNATURES)
 """
 function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|", complement = false) where {U <: Urn}
-    @warn("Complement: ", complement)
-
     if blocktype == "citerelationset"
         relblocks = blocks(blockgroup, "citerelationset")
         relationsdata(relblocks, urn, complement = complement)
@@ -23,7 +21,7 @@ function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; deli
         datalines = data(blockgroup, blocktype)
         matchinglines = []
         otherlines  = []
-        @info("Filter data on $(urn)")
+        #@info("Filter data on $(urn)")
         for line in datalines
             fields = split(line, delimiter)
             try
@@ -37,7 +35,6 @@ function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; deli
                 @warn("Failed testing $(urn) on line $(line) with type $(U)")
             end
         end
-        @warn("$(length(otherlines)) other, $(length(matchinglines)) matching, complement: $(complement)")
         complement ? otherlines : matchinglines
     end
 end
@@ -48,7 +45,7 @@ end
 
 $(SIGNATURES)
 """
-function relationsdata(blocklist, coll::U; diff = false) where {U <: Urn}
+function relationsdata(blocklist, coll::U; complement = false) where {U <: Urn}
     relationblocks = filter(b -> b.label == "citerelationset", blocklist)
     relationlines = []
     exlcudedlines = []
@@ -67,5 +64,5 @@ function relationsdata(blocklist, coll::U; diff = false) where {U <: Urn}
     end
     included = relationlines |> Iterators.flatten |> collect
     excluded = exlcudedlines |> Iterators.flatten |> collect
-    diff ? excluded : included
+    complement ? excluded : included
 end
