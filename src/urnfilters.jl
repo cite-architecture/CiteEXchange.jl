@@ -3,8 +3,8 @@
 
 $(SIGNATURES)
 """
-function data(s::AbstractString, blocktype::AbstractString, urn::U; delimiter = "|", diff = false) where {U <: Urn}
-    data(blocks(s), blocktype, urn, delimiter = delimiter)
+function data(s::AbstractString, blocktype::AbstractString, urn::U; delimiter = "|", complement = false) where {U <: Urn}
+    data(blocks(s), blocktype, urn, delimiter = delimiter, complement = complement)
 end
 
 
@@ -13,15 +13,16 @@ and filter by urn containment on `urn`.
 
 $(SIGNATURES)
 """
-function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|", diff = false) where {U <: Urn}
-    
+function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|", complement = false) where {U <: Urn}
+    @warn("Complement: ", complement)
 
     if blocktype == "citerelationset"
         relblocks = blocks(blockgroup, "citerelationset")
-        relationsdata(relblocks, urn)
+        relationsdata(relblocks, urn, complement = complement)
     else
         datalines = data(blockgroup, blocktype)
         matchinglines = []
+        otherlines  = []
         @info("Filter data on $(urn)")
         for line in datalines
             fields = split(line, delimiter)
@@ -29,12 +30,15 @@ function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; deli
                 urnval = U(fields[1])
                 if urncontains(urn, urnval)
                     push!(matchinglines, line)
+                else
+                    push!(otherlines, line)
                 end
             catch
                 @warn("Failed testing $(urn) on line $(line) with type $(U)")
             end
         end
-        matchinglines
+        @warn("$(length(otherlines)) other, $(length(matchinglines)) matching, complement: $(complement)")
+        complement ? otherlines : matchinglines
     end
 end
 
@@ -44,19 +48,24 @@ end
 
 $(SIGNATURES)
 """
-function relationsdata(blocklist, coll::U) where {U <: Urn}
+function relationsdata(blocklist, coll::U; diff = false) where {U <: Urn}
     relationblocks = filter(b -> b.label == "citerelationset", blocklist)
     relationlines = []
+    exlcudedlines = []
     for blk in relationblocks
         urnstr = replace(blk.lines[1], "urn|" => "")
         try
             objurn = U(urnstr)
             if urncontains(coll, objurn)
                 push!(relationlines, blk.lines[4:end])
+            else
+                push!(exlcudedlines, blk.lines[4:end])
             end
         catch
             @warn("Unable to make URN of type $(U) from $(urnstr)")
         end
     end
-    relationlines |> Iterators.flatten |> collect
+    included = relationlines |> Iterators.flatten |> collect
+    excluded = exlcudedlines |> Iterators.flatten |> collect
+    diff ? excluded : included
 end

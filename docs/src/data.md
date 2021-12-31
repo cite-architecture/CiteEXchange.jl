@@ -119,11 +119,11 @@ textfromblocks = data(blks, "ctsdata", urn)
 
 ### Negating a URN filter
 
-To collect all data lines that are *not* contained by a URN filter, set the optional parameter `diff` to `true`.
+To collect all data lines that are *not* contained by a URN filter, set the optional parameter `complement` to `true`.
 
 ```@example data
 urn = UnstructuredUrn("urn:cts:citedemo:gburg")
-textdata = data(str, "ctsdata", urn, diff=true)
+textdata = data(str, "ctsdata", urn, complement=true)
 ``` 
  
 
