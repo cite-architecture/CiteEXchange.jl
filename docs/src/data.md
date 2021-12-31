@@ -29,7 +29,7 @@ import CitableBase: urncontains
 function urncontains(::MyComparable, u1::UnstructuredUrn, u2::UnstructuredUrn)
     c1 = components(u1.id)
     c2 = components(u2.id)
-    c1[2] == c2[2]
+    c1[3] == c2[3]
 end
 
 import CitableBase: urnsimilar
