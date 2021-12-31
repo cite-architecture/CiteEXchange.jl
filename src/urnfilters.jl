@@ -3,7 +3,7 @@
 
 $(SIGNATURES)
 """
-function data(s::AbstractString, blocktype::AbstractString, urn::U; delimiter = "|") where {U <: Urn}
+function data(s::AbstractString, blocktype::AbstractString, urn::U; delimiter = "|", diff = false) where {U <: Urn}
     data(blocks(s), blocktype, urn, delimiter = delimiter)
 end
 
@@ -13,7 +13,7 @@ and filter by urn containment on `urn`.
 
 $(SIGNATURES)
 """
-function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|") where {U <: Urn}
+function data(blockgroup::Vector{Block}, blocktype::AbstractString, urn::U; delimiter = "|", diff = false) where {U <: Urn}
     
 
     if blocktype == "citerelationset"

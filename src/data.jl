@@ -2,7 +2,7 @@
 
 $(SIGNATURES)
 """
-function data(blockgroup::Vector{Block}, blocktype::AbstractString; delimiter = "|")
+function data(blockgroup::Vector{Block}, blocktype::AbstractString; delimiter = "|", diff = false)
     blks = blocks(blockgroup, blocktype) 
 
     @warn("Get data for $(blocktype)")
@@ -20,7 +20,7 @@ end
 
 $(SIGNATURES)
 """
-function data(s::AbstractString, blocktype::AbstractString; delimiter = "|")
+function data(s::AbstractString, blocktype::AbstractString; delimiter = "|", diff = false)
     data(blocks(s), blocktype, delimiter = delimiter)
 end
 
@@ -29,9 +29,13 @@ end
 
 $(SIGNATURES)
 """
-function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::AbstractString; delimiter = "|")
+function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::AbstractString; delimiter = "|", diff = false)
     data(blocks(src, T), blocktype, delimiter = delimiter)
 end
+
+
+
+
 
 
 """Extract data from all relation sets in a list of blocks.

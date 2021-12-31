@@ -117,6 +117,17 @@ blks = blocks(f, CiteEXchange.FileReader)
 textfromblocks = data(blks, "ctsdata", urn)
 ``` 
 
+### Negating a URN filter
+
+To collect all data lines that are *not* contained by a URN filter, set the optional parameter `diff` to `true`.
+
+```@example data
+urn = UnstructuredUrn("urn:cts:citedemo:gburg")
+textdata = data(str, "ctsdata", urn, diff=true)
+``` 
+ 
+
+ ### Filtering `citerelationset`s
 
 Note that when filtering `citerelationset`s by URN value, the filter applies to the URN for an entire relation set, *not* to URNs in individual relations.
 
@@ -124,3 +135,4 @@ Note that when filtering `citerelationset`s by URN value, the filter applies to 
 relsetfilter = UnstructuredUrn("urn:cite2:hmt:dse.v1:")
 data(str, "citerelationset", relsetfilter)
 ```
+
