@@ -41,7 +41,7 @@ function relationsdata(blocklist)
     relationblocks = filter(b -> b.label == "citerelationset", blocklist)
     relationlines = []
     for blk in relationblocks
-        push!(relationlines, blk.lines[3:end])
+        push!(relationlines, blk.lines[4:end])
     end
     relationlines |> Iterators.flatten |> collect
 end

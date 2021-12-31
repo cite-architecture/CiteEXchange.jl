@@ -70,7 +70,7 @@ lines1 == lines2 == lines3 == lines4
 ```
 
 
-Note in particular that `citerelationset` blocks have three  lines of header information that appear in the `lines` field of a block, but are not included in the output of `data`.
+Note in particular that `citerelationset` blocks have three lines of metadata before the relations data. These three lines appear in the `lines` field of a block, but are not included in the output of `data`.
 
 ```@example data
 relblocks = blocks(str, "citerelationset")
@@ -78,12 +78,12 @@ relblocks[1].lines
 ```
 
 ```@example data
-blocks(str, "citerelationset")
+data(str, "citerelationset")
 ```
 
 ## Select data lines from a list of `Block`s
 
-You can also directly supply a list of blocks instead of a CEX source.
+Instead of a CEX source, you can also directly supply a list of blocks (without a "reader" type). 
 
 ```@example data
 blockgroup = blocks(str)
