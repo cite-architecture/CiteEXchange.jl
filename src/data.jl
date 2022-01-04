@@ -5,10 +5,13 @@ $(SIGNATURES)
 function data(blockgroup::Vector{Block}, blocktype::AbstractString; delimiter = "|", complement = false)
     blks = blocks(blockgroup, blocktype) 
 
-    @warn("Get data for $(blocktype)")
+    #@warn("Get data for $(blocktype)")
     # relationsets have a special multiline header:
     if blocktype == "citerelationset"
         relationsdata(blks)
+    elseif blocktype == "ctsdata"
+        datalines = map(blk -> blk.lines, blks)
+        Iterators.flatten(datalines) |> collect
     else
         # Other types all have a one-line header
         datalines = map(blk -> blk.lines[2:end], blks)

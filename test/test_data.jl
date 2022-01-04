@@ -28,6 +28,15 @@ end
     @test read1 == read2
     @test read1 == read3
     @test read1 == read4
+    @test length(read1) == 2
+
+    corp1 = data(f, CiteEXchange.FileReader, "ctsdata")
+    corp2 = data(url, CiteEXchange.UrlReader, "ctsdata")
+    corp3 = data(str, CiteEXchange.StringReader, "ctsdata")
+    corp4 = data(str, "ctsdata")
+    
+    @test length(corp1) == 3
+    @test corp1 == corp2 == corp3 == corp4
 end
 
 
