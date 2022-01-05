@@ -7,4 +7,4 @@
 > A Julia package to work with data in Cite EXchange format.
 
 
-[Documentation](https://cite-architecture.github.io/CiteEXchange.jl/stable/)
+See the [documentation](https://cite-architecture.github.io/CiteEXchange.jl/stable/)
