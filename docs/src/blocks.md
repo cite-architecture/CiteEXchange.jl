@@ -21,21 +21,22 @@ Parse CEX from a URL:
 
 ```@example blocks
 using CiteEXchange
+using CitableBase
 url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
-urlblocks = blocks(url, CiteEXchange.UrlReader)
+urlblocks = blocks(url, UrlReader)
 ```
 
 From a file:
 
 ```@example blocks
-fileblocks = blocks(f, CiteEXchange.FileReader)
+fileblocks = blocks(f, FileReader)
 ```
 
 From a string:
 
 ```@example blocks
 cexstring = read(f, String)
-stringblocks = blocks(cexstring, CiteEXchange.StringReader)
+stringblocks = blocks(cexstring, StringReader)
 ```
 
 The default is to parse from a string.
@@ -57,9 +58,9 @@ Specify the String value of a CEX block type as an additional parameter to filte
 
 
 ```@example blocks
-urlcatalog = blocks(url, CiteEXchange.UrlReader, "ctscatalog")
-filecatalog = blocks(f, CiteEXchange.FileReader, "ctscatalog")
-stringcatalog = blocks(cexstring, CiteEXchange.StringReader, "ctscatalog")
+urlcatalog = blocks(url, UrlReader, "ctscatalog")
+filecatalog = blocks(f, FileReader, "ctscatalog")
+stringcatalog = blocks(cexstring, StringReader, "ctscatalog")
 defaultcatalog = blocks(cexstring, "ctscatalog")
 ```
 

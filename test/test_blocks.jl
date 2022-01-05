@@ -1,5 +1,5 @@
 @testset "Test `Block` type equality, identification of blocktypes and cex conversion" begin
-    blockgroup = blocks(joinpath("assets", "burneyex.cex"), CiteEXchange.FileReader)
+    blockgroup = blocks(joinpath("assets", "burneyex.cex"), FileReader)
     @test blocktypes(blockgroup) == ["ctscatalog", "ctsdata"]
     @test blockgroup[1] != blockgroup[2] 
     dupecatalog = blockgroup[1]
@@ -11,7 +11,7 @@ end
 
 
 @testset "Test filtering blocks by type" begin
-    blockgroup = blocks(joinpath("assets", "burneyex.cex"), CiteEXchange.FileReader)
+    blockgroup = blocks(joinpath("assets", "burneyex.cex"), FileReader)
     catalogs = blocks(blockgroup, "ctscatalog")
     @test length(catalogs) == 1
 end
@@ -21,9 +21,9 @@ end
     url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
     str = read(f, String)
 
-    read1 = blocks(f, CiteEXchange.FileReader)
-    read2 = blocks(url, CiteEXchange.UrlReader)
-    read3 = blocks(str, CiteEXchange.StringReader)
+    read1 = blocks(f, FileReader)
+    read2 = blocks(url, UrlReader)
+    read3 = blocks(str, StringReader)
     read4 = blocks(str)
     
     @test read1 == read2
@@ -37,9 +37,9 @@ end
     url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
     str = read(f, String)
 
-    read1 = blocks(f, CiteEXchange.FileReader, "ctscatalog")
-    read2 = blocks(url, CiteEXchange.UrlReader, "ctscatalog")
-    read3 = blocks(str, CiteEXchange.StringReader, "ctscatalog")
+    read1 = blocks(f, FileReader, "ctscatalog")
+    read2 = blocks(url, UrlReader, "ctscatalog")
+    read3 = blocks(str, StringReader, "ctscatalog")
     read4 = blocks(str, "ctscatalog")
 
     @test read1 == read2
