@@ -1,7 +1,7 @@
 @testset "Test selecting blocks by type" begin
     f = joinpath("assets", "burneyex.cex")
 
-    blockgroup = blocks(f, CiteEXchange.FileReader)
+    blockgroup = blocks(f, FileReader)
     catdata = data(blockgroup, "ctscatalog")
     @test length(catdata) == 2
 
@@ -9,7 +9,7 @@
     catdatafromstring = data(cexstr, "ctscatalog")
     @test catdata == catdatafromstring
 
-    catdatafromfile = data(f, CiteEXchange.FileReader, "ctscatalog")
+    catdatafromfile = data(f, FileReader, "ctscatalog")
     @test catdatafromfile == catdata
 
 end
@@ -20,9 +20,9 @@ end
     url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
     str = read(f, String)
 
-    read1 = data(f, CiteEXchange.FileReader, "ctscatalog")
-    read2 = data(url, CiteEXchange.UrlReader, "ctscatalog")
-    read3 = data(str, CiteEXchange.StringReader, "ctscatalog")
+    read1 = data(f, FileReader, "ctscatalog")
+    read2 = data(url, UrlReader, "ctscatalog")
+    read3 = data(str, StringReader, "ctscatalog")
     read4 = data(str, "ctscatalog")
     
     @test read1 == read2
@@ -30,9 +30,9 @@ end
     @test read1 == read4
     @test length(read1) == 2
 
-    corp1 = data(f, CiteEXchange.FileReader, "ctsdata")
-    corp2 = data(url, CiteEXchange.UrlReader, "ctsdata")
-    corp3 = data(str, CiteEXchange.StringReader, "ctsdata")
+    corp1 = data(f, FileReader, "ctsdata")
+    corp2 = data(url, UrlReader, "ctsdata")
+    corp3 = data(str, StringReader, "ctsdata")
     corp4 = data(str, "ctsdata")
     
     @test length(corp1) == 3

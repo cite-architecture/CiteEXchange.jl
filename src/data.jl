@@ -32,7 +32,7 @@ end
 
 $(SIGNATURES)
 """
-function data(src::AbstractString,  T::Type{<: BlockReaderType}, blocktype::AbstractString; delimiter = "|", complement = false)
+function data(src::AbstractString,  T::Type{<: CitableBase.ReaderType}, blocktype::AbstractString; delimiter = "|", complement = false)
     data(blocks(src, T), blocktype, delimiter = delimiter)
 end
 

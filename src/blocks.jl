@@ -7,19 +7,6 @@ function blocks(blockgroup::Vector{Block}, blocktype::AbstractString)::Vector{Bl
     filter(blk -> blk.label == blocktype, blockgroup)
 end
 
-"Trait for how to parse strings into blocks"
-abstract type BlockReaderType end
-
-"Singleton identifying string as CEX data to parse."
-struct StringReader <: BlockReaderType end
-
-"Singleton identifying string as URL source for CEX data to parse."
-struct UrlReader <: BlockReaderType end
-
-"Singleton identifying string as file source for CEX data to parse."
-struct FileReader <: BlockReaderType end
-
-
 """Parse `s` into an Array of `Block`s.
 $(SIGNATURES)
 """
@@ -85,7 +72,7 @@ end
 
 $(SIGNATURES)
 """
-function blocks(cexsrc::AbstractString, T::Type{<: BlockReaderType}, blocktype::AbstractString) 
+function blocks(cexsrc::AbstractString, T::Type{<: CitableBase.ReaderType}, blocktype::AbstractString) 
     blockgroup = blocks(cexsrc, T)
     blocks(blockgroup, blocktype)
 end

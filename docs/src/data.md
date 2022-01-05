@@ -60,9 +60,9 @@ In this example, we work with a CEX source that has several different kinds of C
 url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/dev/test/assets/laxlibrary1.cex"
 str = read(f, String)
 
-lines1 = data(f, CiteEXchange.FileReader, "ctsdata")
-lines2 = data(url, CiteEXchange.UrlReader, "ctsdata")
-lines3 = data(str, CiteEXchange.StringReader, "ctsdata")
+lines1 = data(f, FileReader, "ctsdata")
+lines2 = data(url, UrlReader, "ctsdata")
+lines3 = data(str, StringReader, "ctsdata")
 lines4 = data(str, "ctsdata")
 ```
 ```@example data
@@ -113,7 +113,7 @@ textdata = data(str, "ctsdata", urn)
 URN filtering can be used with any of the variations of the `data` function, including filtering `Block`s.
 
 ```@example data
-blks = blocks(f, CiteEXchange.FileReader)
+blks = blocks(f, FileReader)
 textfromblocks = data(blks, "ctsdata", urn)
 ``` 
 

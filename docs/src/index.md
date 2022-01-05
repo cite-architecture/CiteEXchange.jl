@@ -15,12 +15,13 @@ Cite EXchange format (CEX) is a plain-text format for serializing citable schola
 
 ## Quick introduction
 
-You can use the `blocks` function to read source data into a Vector of `Block` objects.  This example reads a file with two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
+You can use the `blocks` function to read source data into a Vector of `Block` objects.  This example using the `FileReader` type from `CitableBase` to indiate we should from a local file. The file in this example has two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
 
 
 ```@example simple
 using CiteEXchange
-blocklist = blocks(f, CiteEXchange.FileReader)
+using CitableBase
+blocklist = blocks(f, FileReader)
 ```
 
 !!! note
