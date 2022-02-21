@@ -1,6 +1,6 @@
 """A single block of CEX data."""
 struct Block
-    label
+    label::AbstractString
     lines
 end
 

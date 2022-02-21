@@ -39,4 +39,9 @@ end
     @test corp1 == corp2 == corp3 == corp4
 end
 
+@testset "Test reading collections data" begin
+    f = joinpath("assets", "collectionblocks.cex")
+    datalines = data(f, "citecollections", FileReader)
+end
+
 
