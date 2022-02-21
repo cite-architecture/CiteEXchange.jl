@@ -15,6 +15,7 @@ using CitableBase: Urn
 include("blockstype.jl")
 include("blocks.jl")
 include("data.jl")
+include("headers.jl")
 
 export Block
 export blocktypes
@@ -26,6 +27,3 @@ export cexversion
 
 
 end # module
-
-#read library info : name, urnstring, license
-#collect datamodel URNs: ? do string work in CEX ?
