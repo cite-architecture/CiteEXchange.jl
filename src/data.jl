@@ -28,16 +28,15 @@ function data(s::AbstractString, blocktype::AbstractString; delimiter = "|", com
 end
 
 
+
+
 """Find data lines for all blocks of type `blocktype` after parsing the CEX source with reader `T`.
 
 $(SIGNATURES)
 """
-function data(src::AbstractString,  T::Type{<: CitableBase.ReaderType}, blocktype::AbstractString; delimiter = "|", complement = false)
+function data(src::AbstractString,  T::Type{<: ReaderType}, blocktype::AbstractString; delimiter = "|", complement = false)
     data(blocks(src, T), blocktype, delimiter = delimiter)
 end
-
-
-
 
 
 
@@ -52,4 +51,3 @@ function relationsdata(blocklist)
     end
     relationlines |> Iterators.flatten |> collect
 end
-

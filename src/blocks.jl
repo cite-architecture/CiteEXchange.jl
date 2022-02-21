@@ -30,6 +30,7 @@ function blocks(s::AbstractString)::Vector{Block}
     blockgroup
 end
 
+
 """Parse `s` into an Array of `Block`s.
 
 $(SIGNATURES)
@@ -37,7 +38,6 @@ $(SIGNATURES)
 function blocks(s::AbstractString, sreader::Type{StringReader})::Vector{Block}
     blocks(s)
 end
-
 
 
 """Parse CEX data from file `fname` into an Array of `Block`s.
@@ -48,6 +48,7 @@ function blocks(fname::AbstractString, freader::Type{FileReader})::Vector{Block}
     cex =  open(f->read(f, String), fname)
     blocks(cex)
 end
+
 
 """Parse CEX data from `url` into an Array of `Block`s.
 
@@ -72,7 +73,7 @@ end
 
 $(SIGNATURES)
 """
-function blocks(cexsrc::AbstractString, T::Type{<: CitableBase.ReaderType}, blocktype::AbstractString) 
+function blocks(cexsrc::AbstractString, T::Type{<: ReaderType}, blocktype::AbstractString) 
     blockgroup = blocks(cexsrc, T)
     blocks(blockgroup, blocktype)
 end

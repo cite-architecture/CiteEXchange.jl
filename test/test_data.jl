@@ -39,4 +39,15 @@ end
     @test corp1 == corp2 == corp3 == corp4
 end
 
+@testset "Test reading collections data" begin
+    f = joinpath("assets", "collectionblocks.cex")
+    s = read(f) |> String
+    u = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/collectionblocks.cex"
+    
+    fdatalines = data(f,  FileReader, "citecollections")
+    sdatalines = data(s,  StringReader, "citecollections")
+    udatalines = data(u, UrlReader, "citecollections")
+    @test fdatalines == sdatalines == udatalines
+end
+
 

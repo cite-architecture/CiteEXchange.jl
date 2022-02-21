@@ -5,8 +5,12 @@
     dupecatalog = blockgroup[1]
     @test blockgroup[1] == dupecatalog
 
-    expectedcex = "!#ctscatalog\nurn|citationScheme|groupName|workTitle|versionLabel|exemplarLabel|online|language\nurn:cts:greekLit:tlg5026.burney86.hmt:|book, scholion|Scholia to the Iliad|Main scholia to the Iliad of British Library, Burney 86|British Library, Burney 86||true|grc\nurn:cts:greekLit:tlg5026.burney86int.hmt:|book,scholion,section|Scholia to the Iliad|Interior scholia of British Library, Burney 86|British Library, Burney 86||true|grc\n"
-    @test CiteEXchange.blocktocex(dupecatalog)== expectedcex
+    expectedcex = """!#ctscatalog
+urn|citationScheme|groupName|workTitle|versionLabel|exemplarLabel|online|language
+urn:cts:greekLit:tlg5026.burney86.hmt:|book, scholion|Scholia to the Iliad|Main scholia to the Iliad of British Library, Burney 86|British Library, Burney 86||true|grc
+urn:cts:greekLit:tlg5026.burney86int.hmt:|book,scholion,section|Scholia to the Iliad|Interior scholia of British Library, Burney 86|British Library, Burney 86||true|grc
+"""
+    @test CiteEXchange.blocktocex(dupecatalog) == expectedcex
 end
 
 
