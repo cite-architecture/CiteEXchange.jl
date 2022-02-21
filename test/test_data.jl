@@ -41,7 +41,13 @@ end
 
 @testset "Test reading collections data" begin
     f = joinpath("assets", "collectionblocks.cex")
-    datalines = data(f, "citecollections", FileReader)
+    s = read(f) |> String
+    u = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/collectionblocks.cex"
+    
+    fdatalines = data(f,  FileReader, "citecollections")
+    sdatalines = data(s,  StringReader, "citecollections")
+    udatalines = data(u, UrlReader, "citecollections")
+    @test fdatalines == sdatalines == udatalines
 end
 
 

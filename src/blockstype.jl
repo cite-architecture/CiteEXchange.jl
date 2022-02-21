@@ -37,13 +37,19 @@ function blocktypes(cexsrc::AbstractString)::Vector{AbstractString}
     map(blk -> blk.label, blockgroup) |> unique
 end
 
-
-
 """Determine block type from first line of a CEX block.
 
 $(SIGNATURES)
 """
-function blocktype(s::AbstractString)::Union{AbstractString, Nothing}
+function blocktype(b::Block)::AbstractString
+    blocktype(b.label)
+end
+
+"""Check if `s` is in valid list of block labels, and
+return `s`if it is.
+$(SIGNATURES)
+"""
+function blocktype(s::AbstractString)::AbstractString
     validtypes = [
         "cexversion",
         "citelibrary",
@@ -53,16 +59,17 @@ function blocktype(s::AbstractString)::Union{AbstractString, Nothing}
         "citeproperties",
         "citedata",
         "imagedata",
-        "relations", # deprecated
         "datamodels",
         "citerelationset",
         "relationsetcatalog"
     ]
-    if s in validtypes
+    if s == "relations"
+        @warn("Block type relations is deprecated and will be removed.  Please use `citerelationset`.")
+        s
+    elseif s in validtypes
         s
     else 
-        @warn "Unrecognized block type: $s. Omitting."
-        nothing
+        throw(DomainError("Invalid block type: $s"))
     end
 end
 
