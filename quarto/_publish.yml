@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 5122baf4-8dc6-468e-841d-0431c1504e66
+      url: 'https://neelsmith.quarto.pub/citeexchange'

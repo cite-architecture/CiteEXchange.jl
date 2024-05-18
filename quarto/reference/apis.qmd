@@ -1,0 +1,67 @@
+---
+title: "API documentation"
+---
+
+
+## Exported types and functions
+
+### The `Block` data type
+
+
+
+`Block` 
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+using CiteEXchange
+@doc Block
+```
+:::
+
+
+`blocktypes` 
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc blocktypes
+```
+:::
+
+`cexversion`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc cexversion
+```
+:::
+
+### The `blocks` function
+
+`blocks`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc blocks
+```
+:::
+
+
+### The `data` function
+
+`data`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc data
+```
+:::
