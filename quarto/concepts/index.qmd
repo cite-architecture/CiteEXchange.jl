@@ -4,4 +4,4 @@ engine: julia
 ---
 
 
-Grok CiteEXchange.
+Cite EXchange format (CEX) is a plain-text format for serializing citable scholarly resources. CEX organizes data in one or more blocks defined by a CEX header line.

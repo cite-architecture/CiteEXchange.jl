@@ -1,0 +1,36 @@
+---
+engine: julia
+---
+
+# CEX blocks
+
+You can use the `blocks` function to read source data into a Vector of `Block` objects. 
+
+This example using the `FileReader` type from `CitableBase` to indiate we should from a local file. The file in this example has two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
+
+```{julia}
+#| echo: false
+#| warning: false
+#| output: false
+using Pkg
+Pkg.add("CitableBase")
+```
+```{julia}
+using CiteEXchange
+using CitableBase
+
+url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/refs/heads/main/test/assets/burneyex.cex"
+blocklist = blocks(url, UrlReader)
+```
+
+
+Each `Block` has a label and an array of data lines.  You can work directly with the array of blocks:
+
+```{julia}
+label(blocklist[1])
+```
+
+```{julia}
+data(blocklist[1])
+```
+

@@ -11,6 +11,7 @@ using CitableBase: UrlReader
 using CitableBase: StringReader
 using CitableBase: ReaderType
 using CitableBase: Urn
+import CitableBase: label
 
 include("blockstype.jl")
 include("blocks.jl")
@@ -18,10 +19,12 @@ include("data.jl")
 include("headers.jl")
 
 export Block
+export data, label
+
 export blocktypes
 export blocks
 export blocktype
-export data
+
 
 export cexversion 
 

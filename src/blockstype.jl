@@ -4,6 +4,21 @@ struct Block
     lines
 end
 
+"""Get label for a `Block`.
+$(SIGNATURES)
+"""
+function label(blk::Block)
+    blk.label
+end
+
+
+"""Get data lines for a `Block`.
+$(SIGNATURES)
+"""
+function data(blk::Block)
+    blk.lines
+end
+
 """Override `==` for `Block`.
 
 $(SIGNATURES)
