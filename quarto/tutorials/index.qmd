@@ -3,4 +3,6 @@ title: Tutorials
 engine: julia
 ---
 
-Learn `CiteEXchange.jl`.
+
+- working with [CEX blocks](./blocks.qmd)
+- using [data in a CEX block](./data.qmd)

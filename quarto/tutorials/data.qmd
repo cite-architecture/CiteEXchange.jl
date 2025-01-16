@@ -1,9 +1,9 @@
-```@setup data
-root = pwd() |> dirname |> dirname
+---
+engine: julia
+---
 
+# Working with data in a `Block`
 
-
-```
 
 # The `data` function
 

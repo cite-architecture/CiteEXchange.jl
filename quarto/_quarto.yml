@@ -36,6 +36,8 @@ website:
     - title: "Tutorials"
       contents: 
         - tutorials/index.qmd
+        - tutorials/blocks.qmd
+        - tutorials/data.qmd
 
     - title: "Guides"
       contents:

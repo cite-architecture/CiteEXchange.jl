@@ -4,9 +4,7 @@ engine: julia
 
 # CEX blocks
 
-You can use the `blocks` function to read source data into a Vector of `Block` objects. 
-
-This example using the `FileReader` type from `CitableBase` to indiate we should from a local file. The file in this example has two blocks, one labelled `ctscatalog` and one labelled `ctsdata`.
+CEX data source organize content in blocks. Use the `blocks` function to read source data into a Vector of `Block` objects. The first parameter is a string identifying the source. The second is one of `UrlReader`, `FileReader` or `StringReader` to specify how the source should be read. We'll start by reading a CEX source on the internet.
 
 ```{julia}
 #| echo: false
@@ -34,3 +32,82 @@ label(blocklist[1])
 data(blocklist[1])
 ```
 
+## And more
+
+The `blocks` function can:
+
+- parse a CEX data source into `Block`s, optionally filtering it by block type
+- filter a list of `Block`s by block type
+
+It always returns a (possibly empty) Vector of `Block`s.
+
+## Parsing a CEX data source
+
+The following examples parse a CEX source with two blocks, one a `ctscatalog` block, the other a `ctsdata` block.  They parse identical data from a URL, a file (`f` in the example below is `test/assets/burneyex.cex` in this github repository), and a string value using `blocks` with a specified "reader".
+
+Parse CEX from a URL:
+
+```@example blocks
+using CiteEXchange
+using CitableBase
+url = "https://raw.githubusercontent.com/cite-architecture/CiteEXchange.jl/main/test/assets/burneyex.cex"
+urlblocks = blocks(url, UrlReader)
+```
+
+From a file:
+
+```@example blocks
+fileblocks = blocks(f, FileReader)
+```
+
+From a string:
+
+```@example blocks
+cexstring = read(f, String)
+stringblocks = blocks(cexstring, StringReader)
+```
+
+The default is to parse from a string.
+
+```@example blocks
+defaultblocks = blocks(cexstring)
+```
+
+The results are equivalent.
+
+```@example blocks
+urlblocks == fileblocks == stringblocks == defaultblocks
+```
+
+
+## Filter CEX source by type
+
+Specify the String value of a CEX block type as an additional parameter to filter the resulting Vector of `Block`s to include only blocks of that type.
+
+
+```@example blocks
+urlcatalog = blocks(url, UrlReader, "ctscatalog")
+filecatalog = blocks(f, FileReader, "ctscatalog")
+stringcatalog = blocks(cexstring, StringReader, "ctscatalog")
+defaultcatalog = blocks(cexstring, "ctscatalog")
+```
+
+
+```@example blocks
+urlcatalog == filecatalog == stringcatalog == defaultcatalog
+```
+
+
+## Filter a list of `Block`s by type
+
+The `blocks` function can also  be used to select blocks of a given type from a list of `Block`s.
+
+
+```@example blocks
+filteredcatalog = blocks(fileblocks, "ctscatalog")
+```
+
+
+```@example blocks
+filteredcatalog == filecatalog
+```
