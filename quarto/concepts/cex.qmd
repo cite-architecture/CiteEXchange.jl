@@ -1,0 +1,11 @@
+---
+engine: julia
+---
+
+# The CITE Exchange format (CEX)
+
+
+
+- share and publish data in a single plain-text file
+- delimited-text contents in identified blocks
+
